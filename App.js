@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph } from 'react-native-paper';
 import io from 'socket.io-client';
 import { FlatList } from 'react-native-gesture-handler';
@@ -55,8 +56,7 @@ class TopScreen extends React.Component {
         <CommentList comments={this.state.comments} />
         <FAB
           style={styles.fab}
-          small
-          icon="plus"
+          icon="add"
           onPress={() => this.socket.emit('message', { user: 'Dom', message: 'hello!' })}
         />
 
@@ -118,21 +118,7 @@ class Message extends React.Component {
   }
 }
 
-const TopStack = createStackNavigator({
-  Top: {
-    screen: TopScreen,
-    navigationOptions: {
-      title: 'Top',
-      headerStyle: {
-        backgroundColor: '#303030'
-      },
-      headerTitleStyle: {
-        color: 'rgba(255,255,255, .87)'
-      }
-    }
-  },
-  Details: DetailsScreen,
-});
+
 
 const GroupStack = createStackNavigator({
   Group: {
@@ -197,9 +183,11 @@ const styles = StyleSheet.create({
   disabledText: {
     color: 'rgba(255,255,255, .38)'
   },
-  button: {
-    borderRadius: 20,
-    width: 70
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
   avatar: {
   },
@@ -209,18 +197,23 @@ const TabNavigator = createMaterialBottomTabNavigator(
   {
     Top:
     {
-      screen: TopStack,
+      screen: TopScreen,
       navigationOptions:
       {
-        tabBarLabel: 'Top',
-      }
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={25} name="md-star" style={{ color: tintColor }} />
+        )
+      },
     },
     Group:
     {
       screen: GroupStack,
       navigationOptions:
       {
-        tabBarLabel: 'Group'
+        tabBarLabel: 'Group',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={25} name="md-globe" style={{ color: tintColor }} />
+        )
       }
     },
     Live:
@@ -228,7 +221,10 @@ const TabNavigator = createMaterialBottomTabNavigator(
       screen: LiveStack,
       navigationOptions:
       {
-        tabBarLabel: 'Live'
+        tabBarLabel: 'Live',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={25} name="md-boat" style={{ color: tintColor }} />
+        )
       }
     },
   },
@@ -237,6 +233,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
     activeColor: 'rgba(255,255,255, .87)',
     inactiveColor: 'rgba(255,255,255, .60)',
     barStyle: { backgroundColor: '#303030' },
+    labeled: false,
   },
 );
 
