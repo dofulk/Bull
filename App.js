@@ -41,12 +41,15 @@ class TopScreen extends React.Component {
 
   componentDidMount() {
     this.socket.on('message', comment => {
+      if( this.state.comments !== undefined || this.state.comments[this.state.comments.length-1].date - comment.date < 500){
+        alert('hi')
+      } else {
       this.setState((state) => {
         const comments = state.comments;
         comments.push(comment)
         return { comments }
       });
-    })
+    }})
   };
 
 
@@ -57,7 +60,7 @@ class TopScreen extends React.Component {
         <FAB
           style={styles.fab}
           icon="add"
-          onPress={() => this.socket.emit('message', { user: 'Dom', message: 'hello!' })}
+          onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date })}
         />
 
       </View>
@@ -109,7 +112,14 @@ class Message extends React.Component {
             <Avatar.Icon size={40} icon="face" style={styles.avatar} />
           </View>
           <View style={{ flex: 7 }}>
-            <Text style={styles.secondaryText}>{this.props.username}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 10 }}>
+                <Text style={styles.secondaryText}>{this.props.username}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.secondaryText}>9:15</Text>
+              </View>
+            </View>
             <Paragraph style={styles.primaryText}>{this.props.comment}</Paragraph>
           </View>
         </Surface>
