@@ -15,9 +15,10 @@ class CommentList extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+          contentContainerStyle={{ paddingBottom: 200}}
           data={this.props.comments}
           extradata={this.props}
-          renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date}></Message>}
+          renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
         />
       </View>
 
@@ -36,14 +37,11 @@ class TopScreen extends React.Component {
 
   }
 
-
-
-
   componentDidMount() {
     this.socket.on('message', comment => {
       this.setState((state) => {
         const comments = state.comments;
-        if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 20000) {
+        if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 5000) {
           const newcomment = comments.pop() 
           newcomment.message = newcomment.message.concat("\n\n", comment.message);
           comments.push(newcomment)
@@ -55,6 +53,7 @@ class TopScreen extends React.Component {
       })
     })
   };
+
 
 
   render() {
@@ -113,14 +112,53 @@ class Message extends React.Component {
       }
   }
 
-  getTime(date) {
-    let currentDate = new Date(date)
-    this.setState((state)=>{
-      
-    }
-    )
-    return currentDate.hours
+  componentDidMount() {
+    this.getTime(this.props.date)
+  }
 
+  getTime(messagedate) {
+
+    this.setState(() => {
+      let currentDate = new Date(messagedate)
+
+      return { date: (currentDate.getHours() + ':' + currentDate.getMinutes()) }
+    })
+  }
+
+  getStyles(hearts) {
+    if (hearts == 0) {
+      return {
+        elevation: 1,
+        backgroundColor: 'rgba(255,255,255, .05)',
+      }
+    } else if (hearts === 1) {
+      return {
+        elevation: 2,
+        backgroundColor: 'rgba(255,255,255, .07)',
+      }
+    } else if (hearts === 2) {
+      return {
+        elevation: 3,
+        backgroundColor: 'rgba(255,255,255, .08)',
+      }
+    } else if (hearts === 3) {
+      return {
+        elevation: 4,
+        backgroundColor: 'rgba(255,255,255, .09)',
+      } 
+    } else if (hearts === 4) {
+      return {
+        elevation: 6,
+        backgroundColor: 'rgba(255,255,255, .11)',
+      }
+    } else if (hearts === 5) {
+      return {
+        elevation: 8,
+        backgroundColor: 'rgba(255,255,255, .12)',
+      }
+    } else {
+      alert('AAAAAAAAAAAAAAAAAAAA')
+    }
   }
 
   render() {
@@ -129,17 +167,17 @@ class Message extends React.Component {
         onPress={() => console.log('Pressed')}
         rippleColor="rgba(0, 0, 0, .32)"
       >
-        <Surface style={styles.card}>
+        <Surface style={[styles.card, this.getStyles(this.props.hearts)]}>
           <View style={{ flex: 1 }}>
             <Avatar.Icon size={40} icon="face" style={styles.avatar} />
           </View>
           <View style={{ flex: 7 }}>
             <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 10 }}>
+              <View style={{ flex: 8 }}>
                 <Text style={styles.secondaryText}>{this.props.username}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.secondaryText}>{this.getTime(this.props.date)}</Text>
+                <Text style={styles.secondaryText}>{this.state.date}</Text>
               </View>
             </View>
             <Paragraph style={styles.primaryText}>{this.props.comment}</Paragraph>
@@ -194,8 +232,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255, .87)'
   },
   card: {
-    backgroundColor: 'rgba(255,255,255, .09)',
-    elevation: 4,
     marginTop: 5,
     marginRight: 10,
     marginLeft: 10,
