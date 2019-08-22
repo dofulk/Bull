@@ -17,7 +17,7 @@ class CommentList extends React.Component {
         <FlatList
           data={this.props.comments}
           extradata={this.props}
-          renderItem={({ item }) => <Message comment={item.message} username={item.user}></Message>}
+          renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date}></Message>}
         />
       </View>
 
@@ -41,15 +41,19 @@ class TopScreen extends React.Component {
 
   componentDidMount() {
     this.socket.on('message', comment => {
-      if( this.state.comments !== undefined || this.state.comments[this.state.comments.length-1].date - comment.date < 500){
-        alert('hi')
-      } else {
       this.setState((state) => {
         const comments = state.comments;
-        comments.push(comment)
-        return { comments }
-      });
-    }})
+        if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 20000) {
+          const newcomment = comments.pop() 
+          newcomment.message = newcomment.message.concat("\n\n", comment.message);
+          comments.push(newcomment)
+          return { comments }
+        } else {
+          comments.push(comment)
+          return { comments }
+        }
+      })
+    })
   };
 
 
@@ -60,7 +64,7 @@ class TopScreen extends React.Component {
         <FAB
           style={styles.fab}
           icon="add"
-          onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date })}
+          onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 0 })}
         />
 
       </View>
@@ -101,6 +105,24 @@ class DetailsScreen extends React.Component {
 }
 
 class Message extends React.Component {
+
+  constructor() {
+    super()
+      this.state = {
+        date: ''
+      }
+  }
+
+  getTime(date) {
+    let currentDate = new Date(date)
+    this.setState((state)=>{
+      
+    }
+    )
+    return currentDate.hours
+
+  }
+
   render() {
     return (
       <TouchableRipple
@@ -117,7 +139,7 @@ class Message extends React.Component {
                 <Text style={styles.secondaryText}>{this.props.username}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.secondaryText}>9:15</Text>
+                <Text style={styles.secondaryText}>{this.getTime(this.props.date)}</Text>
               </View>
             </View>
             <Paragraph style={styles.primaryText}>{this.props.comment}</Paragraph>
