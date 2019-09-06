@@ -28,7 +28,6 @@ target 'bull' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
   target 'bullTests' do
     inherit! :search_paths

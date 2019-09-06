@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph } from 'react-native-paper';
 import io from 'socket.io-client';
-import { FlatList } from 'react-native-gesture-handler';
-import { RNCamera } from 'react-native-camera'
+
+
 
 
 
@@ -43,77 +43,25 @@ class TopScreen extends React.Component {
   };
 
 
-  addFab() {
-    Animated.timing(
-      this.state.fadeAnim,
-      {
-        toValue: 1,
-        duration: 300,
-      }
-    ).start();
-  }
-
-  removeFab() {
-    Animated.timing(
-      this.state.fadeAnim,
-      {
-        toValue: 0,
-        duration: 300,
-      }
-    ).start();
-  }
-
-  handleScroll(event) {
-    // if ((this.state.listHeight - (event.nativeEvent.contentOffset.y + this.state.containerHeight)) < 100) {
-    //   this.addFab()
-    // } else {
-    //   this.removeFab()
-    // }
-
-  }
-
-  changeHeight(height) {
-    let listHeight = height
-    this.setState((state) => {
-      return { listHeight }
-    })
-  }
-
-  onLayout(e) {
-    let containerHeight = e.nativeEvent.layout.height
-    console.log(containerHeight)
-    this.setState((state) => {
-      return { containerHeight }
-    })
-  }
-
   render() {
-    let { fadeAnim } = this.state
 
     return (
       <View style={styles.container}>
         <View
           style={styles.container}
-          onLayout={this.onLayout.bind(this)}
         >
           <Animated.FlatList
             contentContainerStyle={{ paddingBottom: 250 }}
             data={this.state.comments}
             extradata={this.state}
-            onContentSizeChange={(contentWidth, contentHeight) => {
-              this.changeHeight(contentHeight)
-            }
-            }
-            onScroll={this.handleScroll.bind(this)}
             renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
           />
-          <Animated.View style={{ opacity: fadeAnim }}>
+          
             <FAB
               style={styles.fab}
               icon="add"
-              onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 5 })}
+              onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 3 })}
             />
-          </Animated.View>
         </View>
 
 
@@ -125,51 +73,13 @@ class TopScreen extends React.Component {
 
 
 class GroupScreen extends React.Component {
-
-  takePicture = async() => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
-    }
-  };
-
   render() {
     return (
       <View style={styles.container}>
-        <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          flashMode={RNCamera.Constants.FlashMode.on}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          androidRecordAudioPermissionOptions={{
-            title: 'Permission to use audio recording',
-            message: 'We need your permission to use your audio',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            console.log(barcodes);
-          }}
-        />
-        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> SNAP </Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.text}>Group!</Text>
       </View>
-    );
+    )
   }
-    
-
 }
 
 
@@ -236,16 +146,6 @@ class Message extends React.Component {
         elevation: 4,
         backgroundColor: 'rgba(255,255,255, .09)',
       }
-    } else if (hearts == 4) {
-      return {
-        elevation: 6,
-        backgroundColor: 'rgba(255,255,255, .11)',
-      }
-    } else if (hearts == 5) {
-      return {
-        elevation: 8,
-        backgroundColor: 'rgba(255,255,255, .12)',
-      }
     } else {
       alert('AAAAAAAAAAAAAAAAAAAA')
     }
@@ -280,21 +180,6 @@ class Message extends React.Component {
 
 
 
-const GroupStack = createStackNavigator({
-  Group: {
-    screen: GroupScreen,
-    navigationOptions: {
-      title: 'Groups',
-      headerStyle: {
-        backgroundColor: '#303030'
-      },
-      headerTitleStyle: {
-        color: 'rgba(255,255,255, .87)'
-      }
-    }
-  },
-  Details: DetailsScreen,
-});
 
 const LiveStack = createStackNavigator({
   Live: {
@@ -365,7 +250,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
     },
     Group:
     {
-      screen: GroupStack,
+      screen: GroupScreen,
       navigationOptions:
       {
         tabBarLabel: 'Group',
