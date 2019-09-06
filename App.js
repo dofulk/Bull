@@ -1,36 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph } from 'react-native-paper';
 import io from 'socket.io-client';
 import { FlatList } from 'react-native-gesture-handler';
+import { RNCamera } from 'react-native-camera'
 
 
-
-class CommentList extends React.Component {
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          contentContainerStyle={{ paddingBottom: 200}}
-          data={this.props.comments}
-          extradata={this.props}
-          renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
-        />
-      </View>
-
-    )
-  }
-}
 
 class TopScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [] };
-
+    this.state = {
+      comments: [],
+      fadeAnim: new Animated.Value(1),
+      listHeight: 0,
+      containerHeight: 0,
+    };
 
 
     this.socket = io('http://10.0.2.2:3000');
@@ -42,7 +30,7 @@ class TopScreen extends React.Component {
       this.setState((state) => {
         const comments = state.comments;
         if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 5000) {
-          const newcomment = comments.pop() 
+          const newcomment = comments.pop()
           newcomment.message = newcomment.message.concat("\n\n", comment.message);
           comments.push(newcomment)
           return { comments }
@@ -55,16 +43,80 @@ class TopScreen extends React.Component {
   };
 
 
+  addFab() {
+    Animated.timing(
+      this.state.fadeAnim,
+      {
+        toValue: 1,
+        duration: 300,
+      }
+    ).start();
+  }
+
+  removeFab() {
+    Animated.timing(
+      this.state.fadeAnim,
+      {
+        toValue: 0,
+        duration: 300,
+      }
+    ).start();
+  }
+
+  handleScroll(event) {
+    // if ((this.state.listHeight - (event.nativeEvent.contentOffset.y + this.state.containerHeight)) < 100) {
+    //   this.addFab()
+    // } else {
+    //   this.removeFab()
+    // }
+
+  }
+
+  changeHeight(height) {
+    let listHeight = height
+    this.setState((state) => {
+      return { listHeight }
+    })
+  }
+
+  onLayout(e) {
+    let containerHeight = e.nativeEvent.layout.height
+    console.log(containerHeight)
+    this.setState((state) => {
+      return { containerHeight }
+    })
+  }
 
   render() {
+    let { fadeAnim } = this.state
+
     return (
       <View style={styles.container}>
-        <CommentList comments={this.state.comments} />
-        <FAB
-          style={styles.fab}
-          icon="add"
-          onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 0 })}
-        />
+        <View
+          style={styles.container}
+          onLayout={this.onLayout.bind(this)}
+        >
+          <Animated.FlatList
+            contentContainerStyle={{ paddingBottom: 250 }}
+            data={this.state.comments}
+            extradata={this.state}
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              this.changeHeight(contentHeight)
+            }
+            }
+            onScroll={this.handleScroll.bind(this)}
+            renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
+          />
+          <Animated.View style={{ opacity: fadeAnim }}>
+            <FAB
+              style={styles.fab}
+              icon="add"
+              onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 5 })}
+            />
+          </Animated.View>
+        </View>
+
+
 
       </View>
     )
@@ -73,13 +125,51 @@ class TopScreen extends React.Component {
 
 
 class GroupScreen extends React.Component {
+
+  takePicture = async() => {
+    if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options);
+      console.log(data.uri);
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Group!</Text>
+        <RNCamera
+          ref={ref => {
+            this.camera = ref;
+          }}
+          style={styles.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          androidCameraPermissionOptions={{
+            title: 'Permission to use camera',
+            message: 'We need your permission to use your camera',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+          androidRecordAudioPermissionOptions={{
+            title: 'Permission to use audio recording',
+            message: 'We need your permission to use your audio',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+          onGoogleVisionBarcodesDetected={({ barcodes }) => {
+            console.log(barcodes);
+          }}
+        />
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+            <Text style={{ fontSize: 14 }}> SNAP </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    )
+    );
   }
+    
+
 }
 
 
@@ -107,9 +197,9 @@ class Message extends React.Component {
 
   constructor() {
     super()
-      this.state = {
-        date: ''
-      }
+    this.state = {
+      date: ''
+    }
   }
 
   componentDidMount() {
@@ -131,27 +221,27 @@ class Message extends React.Component {
         elevation: 1,
         backgroundColor: 'rgba(255,255,255, .05)',
       }
-    } else if (hearts === 1) {
+    } else if (hearts == 1) {
       return {
         elevation: 2,
         backgroundColor: 'rgba(255,255,255, .07)',
       }
-    } else if (hearts === 2) {
+    } else if (hearts == 2) {
       return {
         elevation: 3,
         backgroundColor: 'rgba(255,255,255, .08)',
       }
-    } else if (hearts === 3) {
+    } else if (hearts == 3) {
       return {
         elevation: 4,
         backgroundColor: 'rgba(255,255,255, .09)',
-      } 
-    } else if (hearts === 4) {
+      }
+    } else if (hearts == 4) {
       return {
         elevation: 6,
         backgroundColor: 'rgba(255,255,255, .11)',
       }
-    } else if (hearts === 5) {
+    } else if (hearts == 5) {
       return {
         elevation: 8,
         backgroundColor: 'rgba(255,255,255, .12)',
