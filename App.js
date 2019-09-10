@@ -3,12 +3,39 @@ import { StyleSheet, Text, View, Animated, TouchableOpacity, } from 'react-nativ
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph } from 'react-native-paper';
+import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph, TextInput } from 'react-native-paper';
 import io from 'socket.io-client';
 
 
 
 
+class MessageInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { text: '' };
+  }
+
+
+  render() {
+    return (
+      <View style={{ margin: 10 }}>
+        <TextInput
+          theme={{
+            colors: {
+              placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)', primary: 'rgba(255,255,255, .87)',
+              underlineColor: 'transparent'
+            }
+          }}
+          placeholder="New Message!"
+          mode="outlined"
+          keyboardAppearance="dark"
+          onChangeText={(text) => this.setState({ text })}
+          value={this.state.text}
+        />
+      </View>
+    )
+  }
+}
 
 class TopScreen extends React.Component {
   constructor(props) {
@@ -18,6 +45,7 @@ class TopScreen extends React.Component {
       fadeAnim: new Animated.Value(1),
       listHeight: 0,
       containerHeight: 0,
+      showInput: false,
     };
 
 
@@ -42,8 +70,36 @@ class TopScreen extends React.Component {
     })
   };
 
+  changeInputState() {
+    this.setState({
+      showInput: true
+    })
+  }
 
   render() {
+    const showInput = this.state.showInput
+    let input
+
+    if (showInput) {
+      input = 
+      <View style={styles.container}>
+        <MessageInput></MessageInput>
+
+        <FAB
+        style={styles.fab}
+        icon="add"
+        onPress={() => this.changeInputState()}
+      />
+      </View>
+
+
+    } else {
+      input = <FAB
+        style={styles.fab}
+        icon="add"
+        onPress={() => this.changeInputState()}
+      />
+    }
 
     return (
       <View style={styles.container}>
@@ -56,12 +112,8 @@ class TopScreen extends React.Component {
             extradata={this.state}
             renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
           />
-          
-            <FAB
-              style={styles.fab}
-              icon="add"
-              onPress={() => this.socket.emit('message', { user: 'Dom', message: "hello! Is it me your'e looking for? Can you hear the people sing?", date: new Date(), hearts: 3 })}
-            />
+
+          {input}
         </View>
 
 
@@ -76,7 +128,7 @@ class GroupScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Group!</Text>
+        <MessageInput></MessageInput>
       </View>
     )
   }
