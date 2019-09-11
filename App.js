@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph, TextInput } from 'react-native-paper';
+import { Avatar, Button, Surface, TouchableRipple, FAB, Paragraph, TextInput, IconButton } from 'react-native-paper';
 import io from 'socket.io-client';
 
 
@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 class MessageInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = { text: '', height: 0 };
   }
 
 
@@ -23,11 +23,19 @@ class MessageInput extends React.Component {
           theme={{
             colors: {
               placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)', primary: 'rgba(255,255,255, .87)',
-              underlineColor: 'transparent'
+              underlineColor: 'transparent',
             }
           }}
           placeholder="New Message!"
           mode="outlined"
+          onChangeText={(text) => {
+            this.setState({ text })
+          }}
+          onContentSizeChange={(event) => {
+            this.setState({ height: event.nativeEvent.contentSize.height })
+          }}
+          style={{ height: this.state.height }}
+          multiline={true}
           keyboardAppearance="dark"
           onChangeText={(text) => this.setState({ text })}
           value={this.state.text}
@@ -81,16 +89,13 @@ class TopScreen extends React.Component {
     let input
 
     if (showInput) {
-      input = 
-      <View style={styles.container}>
-        <MessageInput></MessageInput>
-
-        <FAB
-        style={styles.fab}
-        icon="add"
-        onPress={() => this.changeInputState()}
-      />
-      </View>
+      input =
+        <View style={styles.container}>
+          <View style={{ alignSelf: "center" }}>
+            <IconButton icon="arrow-upward" color='rgba(255,255,255, .87)' />
+          </View>
+          <MessageInput></MessageInput>
+        </View>
 
 
     } else {
@@ -102,23 +107,24 @@ class TopScreen extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
-        <View
-          style={styles.container}
-        >
-          <Animated.FlatList
-            contentContainerStyle={{ paddingBottom: 250 }}
-            data={this.state.comments}
-            extradata={this.state}
-            renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
-          />
 
+      <View
+        style={styles.container}
+      >
+
+        <Animated.FlatList
+          contentContainerStyle={{ paddingBottom: 250 }}
+          data={this.state.comments}
+          extradata={this.state}
+          renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
+        />
+        <KeyboardAvoidingView style={styles.container} enabled>
           {input}
-        </View>
-
-
-
+        </KeyboardAvoidingView>
       </View>
+
+
+
     )
   }
 }
