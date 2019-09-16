@@ -15,30 +15,32 @@ class MessageInput extends React.Component {
     this.state = { text: '', height: 0 };
   }
 
+  changeText() {
+
+  }
 
   render() {
     return (
       <View style={{ margin: 10 }}>
         <TextInput
+          {...this.props}
           theme={{
+            dark: true,
             colors: {
-              placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)', primary: 'rgba(255,255,255, .87)',
-              underlineColor: 'transparent',
+              placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)',
+              underlineColor: 'transparent', background: 'rgba(255,255,255, .11)'
             }
           }}
           placeholder="New Message!"
-          mode="outlined"
-          onChangeText={(text) => {
-            this.setState({ text })
-          }}
+          mode="flat"
+
           onContentSizeChange={(event) => {
             this.setState({ height: event.nativeEvent.contentSize.height })
           }}
-          style={{ height: this.state.height }}
-          multiline={true}
+          // style={{ height: this.state.height }}
           keyboardAppearance="dark"
-          onChangeText={(text) => this.setState({ text })}
-          value={this.state.text}
+
+
         />
       </View>
     )
@@ -54,6 +56,7 @@ class TopScreen extends React.Component {
       listHeight: 0,
       containerHeight: 0,
       showInput: false,
+      text: '',
     };
 
 
@@ -78,11 +81,15 @@ class TopScreen extends React.Component {
     })
   };
 
+  sendMessage(comment) {
+    this.socket.emit('message', { user: "Dom", message: comment, hearts: 2, date: new Date() })
+  }
+
   changeInputState() {
     this.setState({
       showInput: true
     })
-  }
+  };
 
   render() {
     const showInput = this.state.showInput
@@ -90,12 +97,16 @@ class TopScreen extends React.Component {
 
     if (showInput) {
       input =
-        <View style={styles.container}>
-          <View style={{ alignSelf: "center" }}>
-            <IconButton icon="arrow-upward" color='rgba(255,255,255, .87)' />
-          </View>
-          <MessageInput></MessageInput>
-        </View>
+        <KeyboardAvoidingView style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}
+          behavior="height">
+          <MessageInput
+            onChangeText={(text) => this.setState({ text })}
+            value={this.state.text}
+            multiline={true}
+          >
+
+          </MessageInput>
+        </KeyboardAvoidingView>
 
 
     } else {
@@ -118,9 +129,7 @@ class TopScreen extends React.Component {
           extradata={this.state}
           renderItem={({ item }) => <Message comment={item.message} username={item.user} date={item.date} hearts={item.hearts}></Message>}
         />
-        <KeyboardAvoidingView style={styles.container} enabled>
-          {input}
-        </KeyboardAvoidingView>
+        {input}
       </View>
 
 
@@ -134,7 +143,7 @@ class GroupScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MessageInput></MessageInput>
+        <MessageInput ></MessageInput>
       </View>
     )
   }
