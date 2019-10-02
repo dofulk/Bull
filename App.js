@@ -9,11 +9,6 @@ import DetailsScreen from './main/screens/detailsscreen';
 
 
 
-
-
-
-
-
 const LiveStack = createStackNavigator({
   Live: {
     screen: LiveScreen,

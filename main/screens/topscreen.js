@@ -19,7 +19,7 @@ class TopScreen extends React.Component {
         keyboardHeight: 0,
         normalHeight: 0,
         shortHeight: 0,
-  
+        allComments: [],
       };
   
   
@@ -29,6 +29,11 @@ class TopScreen extends React.Component {
   
     componentDidMount() {
       this.socket.on('message', comment => {
+        this.setState((state) => {
+          const allComments = state.allComments;
+          allComments.push(comment)
+          return { allComments }
+        })
         this.setState((state) => {
           const comments = state.comments;
           if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 5000) {
@@ -110,6 +115,7 @@ class TopScreen extends React.Component {
             extradata={this.state}
             scrollEnabled={true}
             renderItem={({ item }) => <Message comment={item.message} title={item.user} date={item.date} hearts={item.hearts}></Message>}
+            keyExtractor={item => item._id}
           />
           {input}
         </KeyboardAvoidingView>

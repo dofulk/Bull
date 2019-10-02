@@ -25,7 +25,6 @@ class MessageInput extends React.Component {
             onContentSizeChange={(event) => {
               this.setState({ height: event.nativeEvent.contentSize.height })
             }}
-            // style={{ height: this.state.height }}
             keyboardAppearance="dark"
   
   

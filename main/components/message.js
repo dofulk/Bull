@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet  } from 'react-native';
+import { Text, View  } from 'react-native';
 import { Avatar, Surface, TouchableRipple, Paragraph,} from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles } from '../styles/index'
 
@@ -58,7 +58,7 @@ class Message extends React.Component {
             <View style={{ flex: 1 }}>
               <Avatar.Icon size={40} icon="face" />
             </View>
-            <View style={{ flex: 7 }}>
+            <View style={{ flex: 6 }}>
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 8 }}>
                   <Text style={{...TextStyles.secondary, fontSize: 14,}}>{this.props.title}</Text>
