@@ -1,6 +1,7 @@
 import * as ElevationStyles from './elevationstyles';
-import * as TextStyles from './textstyles'
-import * as SpacingStyles from './spacingstyles'
-import * as ButtonStyles from './buttonstyles'
+import * as TextStyles from './textstyles';
+import * as SpacingStyles from './spacingstyles';
+import * as ButtonStyles from './buttonstyles';
+import * as PaperTheme from './papertheme';
 
-export { ElevationStyles, TextStyles, SpacingStyles, ButtonStyles }
+export { ElevationStyles, TextStyles, SpacingStyles, ButtonStyles, PaperTheme }

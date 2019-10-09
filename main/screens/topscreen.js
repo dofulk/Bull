@@ -54,7 +54,8 @@ class TopScreen extends React.Component {
     sendMessage(comment) {
       this.socket.emit('message', { user: "Dom", message: comment, hearts: 2, date: new Date() })
       this.setState({
-        showInput: false
+        showInput: false,
+        text: ''
       });
     }
   
@@ -71,8 +72,7 @@ class TopScreen extends React.Component {
   
       if (showInput) {
         input =
-          <View style={{ backgroundColor: "#121212" }}
-            behavior="height">
+          <View style={{ backgroundColor: "#121212" }}>
             <Surface
               style={{ elevation: 6, backgroundColor: 'rgba(255,255,255, .11)' }}
             >
@@ -84,7 +84,6 @@ class TopScreen extends React.Component {
                 onPress={() => this.sendMessage(this.state.text)}
               />
               <MessageInput
-                style={{}}
                 onChangeText={(text) => this.setState({ text })}
                 value={this.state.text}
                 multiline={true}
@@ -102,6 +101,7 @@ class TopScreen extends React.Component {
           style={{...ButtonStyles.fab}}
           icon="add"
           onPress={() => this.changeInputState()}
+          theme={theme}
         />
       }
   
@@ -130,9 +130,9 @@ class TopScreen extends React.Component {
     dark: true,
     colors: {
       placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)',
-      underlineColor: 'transparent', background: 'rgba(255,255,255, .11)'
-    }
+      underlineColor: 'transparent', background: 'rgba(255,255,255, .11)', primary: "#ef4f6a", secondary: "#d6bd4c"
+    },
+    roundness: 5
   }
-  
 
   export default TopScreen;

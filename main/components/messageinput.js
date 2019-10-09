@@ -1,37 +1,33 @@
 import React from 'react';
 import { View } from 'react-native';
-import {  TextInput } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 
 
 class MessageInput extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { text: '', height: 0 };
-    }
-  
-    changeText() {
-  
-    }
-  
-    render() {
-      return (
-        <View style={{ margin: 10 }}>
-          <TextInput
-            {...this.props}
-  
-            placeholder="New Message!"
-            mode="flat"
-  
-            onContentSizeChange={(event) => {
-              this.setState({ height: event.nativeEvent.contentSize.height })
-            }}
-            keyboardAppearance="dark"
-  
-  
-          />
-        </View>
-      )
-    }
+  constructor(props) {
+    super(props);
+
   }
 
-  export default MessageInput
+  changeText() {
+
+  }
+
+  render() {
+    return (
+      <View style={{ margin: 5 }}>
+        <TextInput
+          {...this.props}
+
+          placeholder="New Message!"
+          dense={true}
+          keyboardAppearance="dark"
+          mode="outlined"
+
+        />
+      </View>
+    )
+  }
+}
+
+export default MessageInput
