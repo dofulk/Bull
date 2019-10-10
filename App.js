@@ -6,33 +6,62 @@ import TopScreen from './main/screens/topscreen';
 import GroupScreen from './main/screens/groupscreen';
 import LiveScreen from './main/screens/livescreen';
 import DetailsScreen from './main/screens/detailsscreen';
-
-
+import SettingsScreen from './main/screens/settingsscreen';
+import PhotoScreen from './main/screens/photoscreen';
 
 const LiveStack = createStackNavigator({
   Live: {
     screen: LiveScreen,
-    navigationOptions: {
-      title: 'Live',
-      headerStyle: {
-        backgroundColor: '#303030'
-      },
-      headerTitleStyle: {
-        color: 'rgba(255,255,255, .87)'
-      }
-    }
+    
   },
+  
   Details: DetailsScreen,
-});
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ },
+);
 
+const TopStack = createStackNavigator({
+  Top: {
+    screen: TopScreen,
+  },
 
+  Photo: {
+    screen: PhotoScreen,
+  }
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ },
+);
 
+TopStack.navigationOptions = ({ navigation }) => {
+
+  let tabBarVisible = true;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName
+
+  if ( routeName == 'Photo' ) {
+      tabBarVisible = false
+  }
+
+  return {
+      tabBarVisible,
+  }
+}
 
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     Top:
     {
-      screen: TopScreen,
+      screen: TopStack,
       navigationOptions:
       {
         tabBarIcon: ({ tintColor, focused }) => (
@@ -59,6 +88,17 @@ const TabNavigator = createMaterialBottomTabNavigator(
         tabBarLabel: 'Live',
         tabBarIcon: ({ tintColor, focused }) => (
           <Icon size={25} name="md-boat" style={{ color: tintColor }} />
+        )
+      }
+    },
+    Settings:
+    {
+      screen: SettingsScreen,
+      navigationOptions:
+      {
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={25} name="md-settings" style={{ color: tintColor }} />
         )
       }
     },

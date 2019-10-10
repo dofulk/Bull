@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Avatar, Surface, Paragraph, } from 'react-native-paper';
+import { Avatar, Surface, Paragraph, Button, TouchableRipple} from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles } from '../styles/index';
-import Ripple from 'react-native-material-ripple';
+
 
 
 class Message extends React.Component {
@@ -51,13 +51,23 @@ class Message extends React.Component {
 
   render() {
 
+    const messageType = this.props.type
+    let type
+
+    if (messageType === 'text') {
+      type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, }}>{this.props.comment}</Paragraph>
+    } else {
+      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')}>This is a title about a pig thats really long</Button>
+    }
+
     return (
 
       <Surface style={[{ borderRadius: 10, margin: 5 }, this.getStyles(this.props.hearts)]} theme={theme}>
-        <Ripple
+        <TouchableRipple
           onPress={() => console.log('Pressed')}
           rippleColor="rgba(0, 0, 0, .32)"
           rippleContainerBorderReadius={10}
+          underlayColor="#121212"
         >
           <View style={{ ...SpacingStyles.card }}>
             <View style={{ flex: 1 }}>
@@ -72,10 +82,10 @@ class Message extends React.Component {
                   <Text style={{ ...TextStyles.secondary, fontSize: 14, }}>{this.state.date}</Text>
                 </View>
               </View>
-              <Paragraph style={{ ...TextStyles.primary, fontSize: 20, }}>{this.props.comment}</Paragraph>
+              {type}
             </View>
           </View>
-        </Ripple>
+        </TouchableRipple>
       </Surface>
     )
   }

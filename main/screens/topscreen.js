@@ -114,7 +114,7 @@ class TopScreen extends React.Component {
             resetScrollToCoords={{ x: 0, y: 0 }}
             extradata={this.state}
             scrollEnabled={true}
-            renderItem={({ item }) => <Message comment={item.message} title={item.user} date={item.date} hearts={item.hearts}></Message>}
+            renderItem={({ item }) => <Message comment={item.message} title={item.user} date={item.date} hearts={item.hearts} navigation={this.props.navigation} type='{item.type}'></Message>}
             keyExtractor={item => item._id}
           />
           {input}
