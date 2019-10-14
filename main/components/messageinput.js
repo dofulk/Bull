@@ -22,7 +22,6 @@ class MessageInput extends React.Component {
           placeholder="New Message!"
           dense={true}
           keyboardAppearance="dark"
-          mode="outlined"
 
         />
       </View>

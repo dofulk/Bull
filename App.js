@@ -87,7 +87,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
       {
         tabBarLabel: 'Live',
         tabBarIcon: ({ tintColor, focused }) => (
-          <Icon size={25} name="md-boat" style={{ color: tintColor }} />
+          <Icon size={25} name="md-camera" style={{ color: tintColor }} />
         )
       }
     },

@@ -6,7 +6,7 @@ class LiveScreen extends React.Component {
     render() {
       return (
         <View style={{...SpacingStyles.container}}>
-          <Text style={{...TextStyles.primary}}>Live!</Text>
+          <Text style={{...TextStyles.primary}}>Photos</Text>
         </View>
       )
     }
