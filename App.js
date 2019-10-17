@@ -5,9 +5,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import TopScreen from './main/screens/topscreen';
 import GroupScreen from './main/screens/groupscreen';
 import LiveScreen from './main/screens/livescreen';
-import DetailsScreen from './main/screens/detailsscreen';
 import SettingsScreen from './main/screens/settingsscreen';
 import PhotoScreen from './main/screens/photoscreen';
+import PhotoPreviewScreen from './main/screens/photopreviewscreen';
 
 const LiveStack = createStackNavigator({
   Live: {
@@ -15,7 +15,9 @@ const LiveStack = createStackNavigator({
     
   },
   
-  Details: DetailsScreen,
+  PhotoPreview: {
+    screen: PhotoPreviewScreen,
+  }
 },
 {
   headerMode: 'none',
