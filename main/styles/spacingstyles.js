@@ -13,3 +13,6 @@ export const ripple = {
     margin: 5,
     borderRadius: 10
 }
+export const content = {
+    margin: 2
+}

@@ -8,6 +8,10 @@ class PhotoPreviewScreen extends React.Component {
         super(props)
     }
 
+    sendPhoto() {
+        console.log('hi')
+    }
+
     render() {
         return (
             <View style={{ ...SpacingStyles.container }} >
@@ -17,7 +21,7 @@ class PhotoPreviewScreen extends React.Component {
                     source={require('../assets/test.jpg')}
                 />
                 </TouchableOpacity>
-                <FAB icon="send" style={{ ...ButtonStyles.fab }} onPress={() => console.log('hi')}></FAB>
+                <FAB icon="send" style={{ ...ButtonStyles.fab }} onPress={this.sendPhoto}></FAB>
             </View>
         )
     }

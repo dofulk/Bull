@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Avatar, Surface, Paragraph, Button, TouchableRipple} from 'react-native-paper';
+import { Avatar, Surface, Paragraph, Button, TouchableRipple, IconButton } from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles } from '../styles/index';
 
 
@@ -55,9 +55,9 @@ class Message extends React.Component {
     let type
 
     if (messageType === 'text') {
-      type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, }}>{this.props.comment}</Paragraph>
+      type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content }}>{this.props.comment}</Paragraph>
     } else {
-      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')}>This is a title about a pig thats really long</Button>
+      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')} style={{ ...SpacingStyles.content }}>This is a title about a pig thats really long</Button>
     }
 
     return (
@@ -69,12 +69,14 @@ class Message extends React.Component {
           rippleContainerBorderReadius={10}
           underlayColor="#121212"
         >
+
           <View style={{ ...SpacingStyles.card }}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, ...SpacingStyles.content }}>
               <Avatar.Icon size={40} icon="face" />
             </View>
-            <View style={{ flex: 6 }}>
-              <View style={{ flexDirection: 'row' }}>
+            <View style={{ flex: 6, flexDirection: 'column' }}>
+
+              <View style={{ flexDirection: 'row', ...SpacingStyles.content }}>
                 <View style={{ flex: 8 }}>
                   <Text style={{ ...TextStyles.secondary, fontSize: 14, }}>{this.props.title}</Text>
                 </View>
@@ -83,7 +85,42 @@ class Message extends React.Component {
                 </View>
               </View>
               {type}
+              <View style={{ flexDirection: 'row' }}>
+                <IconButton
+                  icon="trending-up"
+                  size={18}
+                  color={TextStyles.secondary.color}
+                  onPress={() => console.log('Stonks')}
+                />
+                <IconButton
+                  icon="comment"
+                  size={18}
+                  color={TextStyles.secondary.color}
+                  onPress={() => console.log('Ope')}
+                />
+                <IconButton
+                  icon="camera"
+                  size={18}
+                  color={TextStyles.secondary.color}
+                  onPress={() => console.log('Cheese')}
+                />
+                <IconButton
+                  icon="send"
+                  size={18}
+                  color={TextStyles.disabled.color}
+                  onPress={() => console.log('Zoom')}
+                />
+                <IconButton
+                  icon="more-vert"
+                  size={18}
+                  style={{ position: 'absolute', right: 0}}
+                  color={TextStyles.secondary.color}
+                  onPress={() => console.log('More')}
+                />
+              </View>
+
             </View>
+
           </View>
         </TouchableRipple>
       </Surface>
