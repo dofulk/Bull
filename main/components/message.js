@@ -18,6 +18,10 @@ class Message extends React.Component {
     this.getTime(this.props.date)
   }
 
+  sendButton() {
+    console.log('woosh')
+  }
+
   getTime(messagedate) {
 
     this.setState(() => {
@@ -107,8 +111,8 @@ class Message extends React.Component {
                 <IconButton
                   icon="send"
                   size={18}
-                  color={TextStyles.disabled.color}
-                  onPress={() => console.log('Zoom')}
+                  color={TextStyles.secondary.color}
+                  onPress={this.sendButton}
                 />
                 <IconButton
                   icon="more-vert"

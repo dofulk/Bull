@@ -9,8 +9,8 @@ class GroupScreen extends React.Component {
     super(props)
     this.state = {
       groups: [
-        { comment: "Hello", title: "the worst group ever", user: "Dom Fulk" },
-        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", title: "the best group ever", user: "Dom Fulk" }
+        { comment: "Hello", title: "the worst group ever", user: "Dom" },
+        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", title: "the best group ever", user: "Dom" }
       ],
     }
   };

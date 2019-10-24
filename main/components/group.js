@@ -8,20 +8,19 @@ import Ripple from 'react-native-material-ripple';
 class Group extends React.Component {
     render() {
         return (
-
-            <Surface style={{ ...ElevationStyles.two, ...SpacingStyles.card, borderRadius: 10, margin: 5, padding: 5 }} theme={theme} >
-                    <View style={{ flex: 1 }}>
-                        <Avatar.Icon size={40} icon="face" />
-                    </View>
-                    <View style={{ flex: 6 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 8 }}>
-                                <Text style={{ ...TextStyles.secondary, fontSize: 14, }}>{this.props.title}</Text>
-                            </View>
+            <View style={{ flexDirection: 'row', margin: 10 }} >
+                <View style={{ flex: 2, marginLeft: 10, alignSelf: "center" }}>
+                    <Avatar.Icon size={40} icon="face" />
+                </View>
+                <View style={{ flex: 10, borderBottomColor: TextStyles.secondary.color, borderBottomWidth: 1, marginRight: 10 }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 8 }}>
+                            <Text style={{ ...TextStyles.primary }}>{this.props.title}</Text>
                         </View>
-                        <Paragraph style={{ ...TextStyles.primary, fontSize: 20, }}>{this.props.comment}</Paragraph>
                     </View>
-            </Surface>
+                    <Text numberOfLines={1} style={{ ...TextStyles.secondary, marginBottom: 10 }}>{this.props.user}: {this.props.comment}</Text>
+                </View>
+            </View>
         )
     }
 }
