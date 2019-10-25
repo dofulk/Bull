@@ -100,7 +100,7 @@ class Message extends React.Component {
                   icon="comment"
                   size={18}
                   color={TextStyles.secondary.color}
-                  onPress={() => console.log('Ope')}
+                  onPress={this.props.changeInput}
                 />
                 <IconButton
                   icon="camera"
@@ -112,7 +112,7 @@ class Message extends React.Component {
                   icon="send"
                   size={18}
                   color={TextStyles.secondary.color}
-                  onPress={this.sendButton}
+                  onPress={() => console.log('oops')}
                 />
                 <IconButton
                   icon="more-vert"

@@ -51,15 +51,16 @@ class TopScreen extends React.Component {
   }
 
 
-  sendMessage(comment) {
-    this.socket.emit('message', { user: "Dom", message: comment, hearts: 2, date: new Date() })
+  sendMessage = () => {
+    this.socket.emit('message', { user: "Dom", message: this.state.text, hearts: 2, date: new Date() })
     this.setState({
       showInput: false,
       text: ''
     });
   }
 
-  changeInputState() {
+  changeInputState = () => {
+    console.log('aaaaaaaaa')
     this.setState({
       showInput: true
     });
@@ -81,13 +82,15 @@ class TopScreen extends React.Component {
               color="white"
               size={20}
               style={{ margin: 0, alignSelf: 'center' }}
-              onPress={() => this.sendMessage(this.state.text)}
+              onPress={() => this.sendMessage()}
             />
             <MessageInput
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
               multiline={true}
               theme={theme}
+              sendMessage={this.sendMessage}
+
             >
 
             </MessageInput>
@@ -121,6 +124,7 @@ class TopScreen extends React.Component {
               date={item.date}
               hearts={item.hearts}
               navigation={this.props.navigation}
+              changeInput={this.changeInputState}
               type='text'
             >
             </Message>

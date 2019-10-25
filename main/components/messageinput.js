@@ -31,7 +31,7 @@ class MessageInput extends React.Component {
             icon="send"
             size={20}
             color="white"
-            onPress={() => console.log('Pressed')}
+            onPress={this.props.sendMessage}
           />
         </View >
       </View>
