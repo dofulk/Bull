@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import Message from '../components/message';
 import MessageInput from '../components/messageinput';
 import { SpacingStyles, ButtonStyles } from '../styles/index';
+import { connect } from 'react-redux';
 
 class TopScreen extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class TopScreen extends React.Component {
       keyboardHeight: 0,
       normalHeight: 0,
       shortHeight: 0,
-      allComments: [],
+      allComments: []
     };
 
 
@@ -52,7 +53,7 @@ class TopScreen extends React.Component {
 
 
   sendMessage = () => {
-    this.socket.emit('message', { user: "Dom", message: this.state.text, hearts: 2, date: new Date() })
+    this.socket.emit('message', { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date() })
     this.setState({
       showInput: false,
       text: ''
@@ -60,7 +61,6 @@ class TopScreen extends React.Component {
   }
 
   changeInputState = () => {
-    console.log('aaaaaaaaa')
     this.setState({
       showInput: true
     });
@@ -149,4 +149,11 @@ const theme = {
   roundness: 5
 }
 
-export default TopScreen;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+
+export default connect(mapStateToProps)(TopScreen);

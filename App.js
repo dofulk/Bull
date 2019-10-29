@@ -8,23 +8,30 @@ import LiveScreen from './main/screens/livescreen';
 import SettingsScreen from './main/screens/settingsscreen';
 import PhotoScreen from './main/screens/photoscreen';
 import PhotoPreviewScreen from './main/screens/photopreviewscreen';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './main/reducers/rootreducer'
+
+
+const store = createStore(rootReducer);
+
 
 const LiveStack = createStackNavigator({
   Live: {
     screen: LiveScreen,
-    
+
   },
-  
+
   PhotoPreview: {
     screen: PhotoPreviewScreen,
   }
 },
-{
-  headerMode: 'none',
-  navigationOptions: {
-    headerVisible: false,
-  }
- },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    }
+  },
 );
 
 const TopStack = createStackNavigator({
@@ -36,12 +43,12 @@ const TopStack = createStackNavigator({
     screen: PhotoScreen,
   }
 },
-{
-  headerMode: 'none',
-  navigationOptions: {
-    headerVisible: false,
-  }
- },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    }
+  },
 );
 
 TopStack.navigationOptions = ({ navigation }) => {
@@ -50,12 +57,12 @@ TopStack.navigationOptions = ({ navigation }) => {
 
   let routeName = navigation.state.routes[navigation.state.index].routeName
 
-  if ( routeName == 'Photo' ) {
-      tabBarVisible = false
+  if (routeName == 'Photo') {
+    tabBarVisible = false
   }
 
   return {
-      tabBarVisible,
+    tabBarVisible,
   }
 }
 
@@ -127,6 +134,10 @@ export default class App extends React.Component {
 
 
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    )
   }
 }
