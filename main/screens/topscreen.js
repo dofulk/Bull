@@ -1,18 +1,16 @@
 import React from 'react';
 import { View, Animated, KeyboardAvoidingView, FlatList } from 'react-native';
 import { Surface, FAB, IconButton } from 'react-native-paper';
-import io from 'socket.io-client';
 import Message from '../components/message';
 import MessageInput from '../components/messageinput';
 import { SpacingStyles, ButtonStyles } from '../styles/index';
 import { connect } from 'react-redux';
+import { getMessages, addNewMessage } from '../redux/actions';
 
 class TopScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comments: [],
-      fadeAnim: new Animated.Value(1),
       listHeight: 0,
       containerHeight: 0,
       showInput: false,
@@ -20,50 +18,34 @@ class TopScreen extends React.Component {
       keyboardHeight: 0,
       normalHeight: 0,
       shortHeight: 0,
-      allComments: []
     };
 
 
-    this.socket = io('http://10.0.2.2:3000');
 
   }
 
-  componentDidMount() {
-    this.socket.on('message', comment => {
-      this.setState((state) => {
-        const allComments = state.allComments;
-        allComments.push(comment)
-        return { allComments }
-      })
-      this.setState((state) => {
-        const comments = state.comments;
-        if (comments.length > 0 && Date.parse(comment.date) - Date.parse(comments[comments.length - 1].date) < 5000) {
-          const newcomment = comments.pop()
-          newcomment.message = newcomment.message.concat("\n\n", comment.message);
-          comments.push(newcomment)
-          return { comments }
-        } else {
-          comments.push(comment)
-          return { comments }
-        }
-      })
-    });
 
-  }
 
 
   sendMessage = () => {
-    this.socket.emit('message', { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date() })
-    this.setState({
-      showInput: false,
-      text: ''
-    });
+    this.props.addNewMessage(
+      this.props.socket.socketio,
+      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date() }
+    )
+  }
+
+  sendPhoto = () => {
+    console.log('hi')
   }
 
   changeInputState = () => {
     this.setState({
       showInput: true
     });
+  }
+
+  openCamera = () => {
+    this.props.navigation.push('Camera')
   }
 
 
@@ -77,19 +59,13 @@ class TopScreen extends React.Component {
           <Surface
             style={{ elevation: 6, backgroundColor: 'rgba(255,255,255, .11)' }}
           >
-            <IconButton
-              icon="arrow-drop-up"
-              color="white"
-              size={20}
-              style={{ margin: 0, alignSelf: 'center' }}
-              onPress={() => this.sendMessage()}
-            />
             <MessageInput
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
               multiline={true}
               theme={theme}
               sendMessage={this.sendMessage}
+              style={{ marginTop: 5 }}
 
             >
 
@@ -109,31 +85,31 @@ class TopScreen extends React.Component {
     }
 
     return (
-      <KeyboardAvoidingView style={[{ ...SpacingStyles.container }, { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }]}>
+        <KeyboardAvoidingView style={[{ ...SpacingStyles.container }, { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }]}>
 
-        <FlatList
-          contentContainerStyle={{ paddingBottom: 250 }}
-          data={this.state.comments}
-          resetScrollToCoords={{ x: 0, y: 0 }}
-          extradata={this.state}
-          scrollEnabled={true}
-          renderItem={({ item }) =>
-            <Message
-              comment={item.message}
-              title={item.user}
-              date={item.date}
-              hearts={item.hearts}
-              navigation={this.props.navigation}
-              changeInput={this.changeInputState}
-              type='text'
-            >
-            </Message>
-          }
-          keyExtractor={item => item._id}
-        />
-        {input}
-      </KeyboardAvoidingView>
-
+          <FlatList
+            contentContainerStyle={{ paddingBottom: 250 }}
+            data={this.props.comments}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            extradata={this.state}
+            scrollEnabled={true}
+            renderItem={({ item }) =>
+              <Message
+                comment={item.message}
+                title={item.user}
+                date={item.date}
+                hearts={item.hearts}
+                navigation={this.props.navigation}
+                changeInput={this.changeInputState}
+                type='text'
+                openCamera={this.openCamera}
+              >
+              </Message>
+            }
+            keyExtractor={item => item._id}
+          />
+          {input}
+        </KeyboardAvoidingView>
 
 
     )
@@ -151,9 +127,17 @@ const theme = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    comments: state.chatMessages.top,
+    socket: state.socket
+
   }
 }
 
+const mapDispatchToProps = {
+  addNewMessage,
+  getMessages
+}
 
-export default connect(mapStateToProps)(TopScreen);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopScreen);

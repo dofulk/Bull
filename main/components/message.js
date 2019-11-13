@@ -106,7 +106,7 @@ class Message extends React.Component {
                   icon="camera"
                   size={18}
                   color={TextStyles.secondary.color}
-                  onPress={() => console.log('Cheese')}
+                  onPress={this.props.openCamera}
                 />
                 <IconButton
                   icon="send"

@@ -55,11 +55,14 @@ class CameraScreen extends React.Component {
       const data = await this.camera.takePictureAsync(options);
       console.log(data.uri);
       this.props.navigation.navigate('PhotoPreview', {
-        imageUri: data.uri
+        imageUri: data.uri,
+        sendPhoto: this.props.sendPhoto
       })
     }
   };
 }
+
+const photo = require('../assets/test.jpg')
 
 const styles = StyleSheet.create({
   container: {
