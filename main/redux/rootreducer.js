@@ -1,6 +1,7 @@
 import { ADD_MESSAGE, CHANGE_NAME, CONNECTED, DISCONNECTED } from './actions';
 import { combineReducers } from 'redux';
-import io from'socket.io-client'
+import io from 'socket.io-client'
+import { objectExpression } from '@babel/types';
 
 const defaultValues = {
     user: {
@@ -10,15 +11,7 @@ const defaultValues = {
         isConnected: false,
         socketio: io('http://10.0.2.2:3000')
     },
-    chatMessages: {
-        top: [{
-            message: 'hi',
-            user: 'dom',
-            date: 1572545207,
-            hearts: 1,
-            _id: 1
-        }]
-    },
+    chatMessages: [],
     outgoingMessages: [],
 
 }
@@ -54,8 +47,8 @@ const chatMessagesReducer = (state = defaultValues.chatMessages, action) => {
         case ADD_MESSAGE:
             return {
                 ...state,
-                top: state.top.concat(action.payload)
-            };
+                [action.payload.chat]: messagesReducer(state[action.payload.chat], action)
+            }
 
 
         default:
@@ -63,11 +56,23 @@ const chatMessagesReducer = (state = defaultValues.chatMessages, action) => {
     }
 }
 
+const messagesReducer = (state = [], action) => {
+    switch (action.type) {
+        case ADD_MESSAGE:
+            return [...state, action.payload]
+
+        default:
+            return state;
+    }
+}
+
+
 
 const rootReducer = combineReducers({
     user: userReducer,
-    socket: socketReducer,
     chatMessages: chatMessagesReducer,
+    socket: socketReducer,
+
 })
 
 

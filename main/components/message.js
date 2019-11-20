@@ -10,7 +10,8 @@ class Message extends React.Component {
   constructor() {
     super()
     this.state = {
-      date: ''
+      date: '',
+      showOptions: false,
     }
   }
 
@@ -53,15 +54,78 @@ class Message extends React.Component {
     }
   }
 
+  setOptions() {
+    this.setState({
+      showOptions: !this.state.showOptions
+    })
+    console.log(this.showOptions)
+  }
+
+
   render() {
 
     const messageType = this.props.type
     let type
+    let options
+    let menu
 
     if (messageType === 'text') {
-      type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content }}>{this.props.comment}</Paragraph>
+      type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content, flex: 8 }}>{this.props.comment}</Paragraph>
     } else {
-      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')} style={{ ...SpacingStyles.content }}>This is a title about a pig thats really long</Button>
+      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')} style={{ ...SpacingStyles.content, flex: 8 }}>This is a title about a pig thats really long</Button>
+    }
+
+    if (this.state.showOptions) {
+      options =
+        <View style={{ flexDirection: 'row' }}>
+          <IconButton
+            icon="trending-up"
+            size={18}
+            color={TextStyles.secondary.color}
+            onPress={() => console.log('Stonks')}
+          />
+          <IconButton
+            icon="comment"
+            size={18}
+            color={TextStyles.secondary.color}
+            onPress={this.props.changeInput}
+          />
+          <IconButton
+            icon="camera"
+            size={18}
+            color={TextStyles.secondary.color}
+            onPress={this.props.openCamera}
+          />
+          <IconButton
+            icon="send"
+            size={18}
+            color={TextStyles.secondary.color}
+            onPress={() => console.log('oops')}
+          />
+
+        </View>
+      menu =
+        <View style={{ flex: 1 }}>
+          <IconButton
+            icon="arrow-drop-up"
+            size={18}
+            style={{ alignSelf: "flex-end" }}
+            color={TextStyles.secondary.color}
+            onPress={this.setOptions.bind(this)}
+          />
+        </View>
+    } else {
+      options = null
+      menu =
+        <View style={{ flex: 1 }}>
+          <IconButton
+            icon="arrow-drop-down"
+            size={18}
+            style={{ alignSelf: "flex-end" }}
+            color={TextStyles.secondary.color}
+            onPress={this.setOptions.bind(this)}
+          />
+        </View>
     }
 
     return (
@@ -72,6 +136,7 @@ class Message extends React.Component {
           rippleColor="rgba(0, 0, 0, .32)"
           rippleContainerBorderReadius={10}
           underlayColor="#121212"
+          onPress={() => console.log('hi')}
         >
 
           <View style={{ ...SpacingStyles.card }}>
@@ -88,41 +153,15 @@ class Message extends React.Component {
                   <Text style={{ ...TextStyles.secondary, fontSize: 14, }}>{this.state.date}</Text>
                 </View>
               </View>
-              {type}
-              <View style={{ flexDirection: 'row' }}>
-                <IconButton
-                  icon="trending-up"
-                  size={18}
-                  color={TextStyles.secondary.color}
-                  onPress={() => console.log('Stonks')}
-                />
-                <IconButton
-                  icon="comment"
-                  size={18}
-                  color={TextStyles.secondary.color}
-                  onPress={this.props.changeInput}
-                />
-                <IconButton
-                  icon="camera"
-                  size={18}
-                  color={TextStyles.secondary.color}
-                  onPress={this.props.openCamera}
-                />
-                <IconButton
-                  icon="send"
-                  size={18}
-                  color={TextStyles.secondary.color}
-                  onPress={() => console.log('oops')}
-                />
-                <IconButton
-                  icon="more-vert"
-                  size={18}
-                  style={{ position: 'absolute', right: 0}}
-                  color={TextStyles.secondary.color}
-                  onPress={() => console.log('More')}
-                />
-              </View>
+              <View style={{ flexDirection: "row", margin: 0 }}>
+                <View style={{ flexDirection: "column" }}>
+                  {type}
+                  {options}
+                  </View>
+                  {menu}
+                </View>
 
+              
             </View>
 
           </View>

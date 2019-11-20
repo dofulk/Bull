@@ -30,8 +30,13 @@ class TopScreen extends React.Component {
   sendMessage = () => {
     this.props.addNewMessage(
       this.props.socket.socketio,
-      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date() }
+      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: "top" }
     )
+    this.setState({
+      showInput: false,
+      text: ''
+    })
+    console.log(this.props.chatMessages)
   }
 
   sendPhoto = () => {
@@ -128,7 +133,7 @@ const theme = {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    comments: state.chatMessages.top,
+    comments: state.chatMessages[this.props.chatroom],
     socket: state.socket
 
   }
