@@ -5,13 +5,13 @@ import rootReducer from './rootreducer'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 
-const logger = createLogger({
-    collapsed: true
-})
+// const logger = createLogger({
+//     collapsed: true
+// })
 
 
 
-const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 
