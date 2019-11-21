@@ -1,10 +1,12 @@
 import React from 'react';
 import TopScreen from './topscreen';
+import LiveScreen from './livescreen';
 import GroupScreen from './groupscreen';
 import SettingsScreen from './settingsscreen';
 import PhotoScreen from './photoscreen';
 import PhotoPreviewScreen from './photopreviewscreen';
 import CameraScreen from './camerascreen';
+import MessageListScreen from './messagelistscreen'
 import { getMessages } from '../redux/actions'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -28,6 +30,8 @@ const TopStack = createStackNavigator({
     },
 );
 
+
+
 TopStack.navigationOptions = ({ navigation }) => {
 
     let tabBarVisible = true;
@@ -43,6 +47,48 @@ TopStack.navigationOptions = ({ navigation }) => {
     }
 }
 
+
+const LiveStack = createStackNavigator({
+    Top: {
+        screen: LiveScreen,
+    },
+
+    Photo: {
+        screen: PhotoScreen,
+    }
+},
+    {
+        headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false,
+        }
+    },
+);
+
+LiveStack.navigationOptions = ({ navigation }) => {
+
+    let tabBarVisible = true;
+
+    let routeName = navigation.state.routes[navigation.state.index].routeName
+
+    if (routeName == 'Photo') {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible,
+    }
+}
+
+
+const GroupStack = createStackNavigator({
+    Group: {
+        screen: GroupScreen
+    },
+    MessageList: {
+        screen: MessageListScreen
+    }
+})
 const TabNavigator = createMaterialBottomTabNavigator(
     {
         Top:
@@ -57,7 +103,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Group:
         {
-            screen: GroupScreen,
+            screen: GroupStack,
             navigationOptions:
             {
                 tabBarLabel: 'Group',
@@ -68,7 +114,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Live:
         {
-            screen: TopStack,
+            screen: LiveStack,
             navigationOptions:
             {
                 tabBarLabel: 'Live',

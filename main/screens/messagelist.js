@@ -30,7 +30,7 @@ class MessageList extends React.Component {
   sendMessage = () => {
     this.props.addNewMessage(
       this.props.socket.socketio,
-      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: "top" }
+      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: this.props.chatroom }
     )
     this.setState({
       showInput: false,

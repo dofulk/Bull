@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Avatar, Surface, Paragraph } from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles, PaperTheme } from '../styles/index'
 import Ripple from 'react-native-material-ripple';
 
 
+
 class Group extends React.Component {
     render() {
         return (
+            <TouchableOpacity onPress={this.props.onPressButton}>
             <View style={{ flexDirection: 'row', margin: 10 }} >
                 <View style={{ flex: 2, marginLeft: 10, alignSelf: "center" }}>
                     <Avatar.Icon size={40} icon="face" />
@@ -21,6 +23,7 @@ class Group extends React.Component {
                     <Text numberOfLines={1} style={{ ...TextStyles.secondary, marginBottom: 10 }}>{this.props.user}: {this.props.comment}</Text>
                 </View>
             </View>
+            </TouchableOpacity>
         )
     }
 }

@@ -15,15 +15,15 @@ class Message extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getTime(this.props.date)
   }
 
-  sendButton() {
+  sendButton = () => {
     console.log('woosh')
   }
 
-  getTime(messagedate) {
+  getTime = (messagedate) => {
 
     this.setState(() => {
       let currentDate = new Date(messagedate)
@@ -32,7 +32,7 @@ class Message extends React.Component {
     })
   }
 
-  getStyles(hearts) {
+  getStyles = (hearts) => {
     if (hearts == 0) {
       return {
         ...ElevationStyles.one
@@ -54,11 +54,10 @@ class Message extends React.Component {
     }
   }
 
-  setOptions() {
+  setOptions = () => {
     this.setState({
       showOptions: !this.state.showOptions
     })
-    console.log(this.showOptions)
   }
 
 
@@ -67,7 +66,6 @@ class Message extends React.Component {
     const messageType = this.props.type
     let type
     let options
-    let menu
 
     if (messageType === 'text') {
       type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content, flex: 8 }}>{this.props.comment}</Paragraph>
@@ -104,28 +102,8 @@ class Message extends React.Component {
           />
 
         </View>
-      menu =
-        <View style={{ flex: 1 }}>
-          <IconButton
-            icon="arrow-drop-up"
-            size={18}
-            style={{ alignSelf: "flex-end" }}
-            color={TextStyles.secondary.color}
-            onPress={this.setOptions.bind(this)}
-          />
-        </View>
     } else {
       options = null
-      menu =
-        <View style={{ flex: 1 }}>
-          <IconButton
-            icon="arrow-drop-down"
-            size={18}
-            style={{ alignSelf: "flex-end" }}
-            color={TextStyles.secondary.color}
-            onPress={this.setOptions.bind(this)}
-          />
-        </View>
     }
 
     return (
@@ -136,7 +114,7 @@ class Message extends React.Component {
           rippleColor="rgba(0, 0, 0, .32)"
           rippleContainerBorderReadius={10}
           underlayColor="#121212"
-          onPress={() => console.log('hi')}
+          onPress={this.setOptions}
         >
 
           <View style={{ ...SpacingStyles.card }}>
@@ -158,7 +136,6 @@ class Message extends React.Component {
                   {type}
                   {options}
                   </View>
-                  {menu}
                 </View>
 
               
