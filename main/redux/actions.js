@@ -1,7 +1,11 @@
+const axios = require('axios')
+
+
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const CHANGE_NAME = 'CHANGE_NAME'
 export const CONNECTEDDISCONNECTED = 'CONNECTED'
 export const DISCONNECTED = 'DISCONNECTED'
+
 
 export function addMessage(data) {
     return {
@@ -50,7 +54,26 @@ export const getMessages = (socket) => {
 }
 
 export const addNewMessage = (socket, message) => {
-    return (dispatch) => {
+    return () => {
         socket.emit('message', message)
+    }
+}
+
+export const addNewPhotoMessage = (image, message) => {
+    return () => {
+        let imageFormObj = new FormData();
+
+        for ( var key in message ) {
+            imageFormObj.append(key, message[key]);
+        }
+        
+        imageFormObj.append('fileData', {
+            uri: image,
+            type: 'image/jpeg',
+        });
+        axios.post('http://10.0.2.2:3000/upload', imageFormObj)
+            .then((checkStatusAndGetJSONResponse) => {
+                console.log(checkStatusAndGetJSONResponse);
+            }).catch((err) => { console.log(err) })
     }
 }

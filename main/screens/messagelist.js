@@ -19,18 +19,13 @@ class MessageList extends React.Component {
       normalHeight: 0,
       shortHeight: 0,
     };
-
-
-
   }
-
-
 
 
   sendMessage = () => {
     this.props.addNewMessage(
       this.props.socket.socketio,
-      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: this.props.chatroom }
+      { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: this.props.chatroom, type: 'message' }
     )
     this.setState({
       showInput: false,
@@ -49,9 +44,10 @@ class MessageList extends React.Component {
     });
   }
 
-  openCamera = () => {
-    this.props.navigation.push('Camera')
+  willShowOptions = () => {
+    return false
   }
+
 
 
   render() {
@@ -106,8 +102,8 @@ class MessageList extends React.Component {
                 hearts={item.hearts}
                 navigation={this.props.navigation}
                 changeInput={this.changeInputState}
-                type='text'
-                openCamera={this.openCamera}
+                type={item.type}
+                willShowOptions={this.willShowOptions}
               >
               </Message>
             }

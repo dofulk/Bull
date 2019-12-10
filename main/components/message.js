@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Avatar, Surface, Paragraph, Button, TouchableRipple, IconButton } from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles } from '../styles/index';
-
+import { withNavigation } from 'react-navigation';
 
 
 class Message extends React.Component {
@@ -17,10 +17,17 @@ class Message extends React.Component {
 
   componentDidMount = () => {
     this.getTime(this.props.date)
+    this.setState({
+      showOptions: this.props.willShowOptions
+    })
   }
 
   sendButton = () => {
     console.log('woosh')
+  }
+
+  goToCamera = () => {
+    this.props.navigation.push('Camera')
   }
 
   getTime = (messagedate) => {
@@ -67,10 +74,10 @@ class Message extends React.Component {
     let type
     let options
 
-    if (messageType === 'text') {
+    if (messageType === 'message') {
       type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content, flex: 8 }}>{this.props.comment}</Paragraph>
     } else {
-      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo')} style={{ ...SpacingStyles.content, flex: 8 }}>This is a title about a pig thats really long</Button>
+      type = <Button mode="contained" onPress={() => this.props.navigation.push('Photo', {image: this.props.image})} style={{ ...SpacingStyles.content, flex: 8 }}>This is a title about a pig thats really long</Button>
     }
 
     if (this.state.showOptions) {
@@ -92,7 +99,7 @@ class Message extends React.Component {
             icon="camera"
             size={18}
             color={TextStyles.secondary.color}
-            onPress={this.props.openCamera}
+            onPress={this.goToCamera}
           />
           <IconButton
             icon="send"
@@ -159,4 +166,4 @@ const theme = {
 }
 
 
-export default Message
+export default withNavigation(Message)

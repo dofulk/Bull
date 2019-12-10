@@ -3,15 +3,19 @@ import { View } from 'react-native';
 import { SpacingStyles } from '../styles/index'
 import Group from '../components/group'
 import { FlatList } from 'react-native-gesture-handler';
-import MessageListScreen from './messagelistscreen'
 
 class GroupScreen extends React.Component {
+  static navigationOptions = {
+    headerShown: false
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       groups: [
         { comment: "Hello", group: "the worst group ever", user: "Dom" },
-        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" }
+        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" },
+        { comment: "Hello", group: "The Degenerates", user: "Dom" },
       ],
     }
   };

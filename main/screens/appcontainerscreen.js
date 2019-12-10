@@ -3,97 +3,29 @@ import TopScreen from './topscreen';
 import LiveScreen from './livescreen';
 import GroupScreen from './groupscreen';
 import SettingsScreen from './settingsscreen';
-import PhotoScreen from './photoscreen';
 import PhotoPreviewScreen from './photopreviewscreen';
 import CameraScreen from './camerascreen';
-import MessageListScreen from './messagelistscreen'
+import MessageListScreen from './messagelistscreen';
+import PhotoModal from './photomodal'
 import { getMessages } from '../redux/actions'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
-const TopStack = createStackNavigator({
-    Top: {
-        screen: TopScreen,
-    },
-
-    Photo: {
-        screen: PhotoScreen,
-    }
-},
-    {
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
-    },
-);
 
 
 
-TopStack.navigationOptions = ({ navigation }) => {
-
-    let tabBarVisible = true;
-
-    let routeName = navigation.state.routes[navigation.state.index].routeName
-
-    if (routeName == 'Photo') {
-        tabBarVisible = false
-    }
-
-    return {
-        tabBarVisible,
-    }
-}
 
 
-const LiveStack = createStackNavigator({
-    Top: {
-        screen: LiveScreen,
-    },
-
-    Photo: {
-        screen: PhotoScreen,
-    }
-},
-    {
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
-    },
-);
-
-LiveStack.navigationOptions = ({ navigation }) => {
-
-    let tabBarVisible = true;
-
-    let routeName = navigation.state.routes[navigation.state.index].routeName
-
-    if (routeName == 'Photo') {
-        tabBarVisible = false
-    }
-
-    return {
-        tabBarVisible,
-    }
-}
 
 
-const GroupStack = createStackNavigator({
-    Group: {
-        screen: GroupScreen
-    },
-    MessageList: {
-        screen: MessageListScreen
-    }
-})
+
 const TabNavigator = createMaterialBottomTabNavigator(
     {
         Top:
         {
-            screen: TopStack,
+            screen: TopScreen,
             navigationOptions:
             {
                 tabBarIcon: ({ tintColor, focused }) => (
@@ -103,7 +35,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Group:
         {
-            screen: GroupStack,
+            screen: GroupScreen,
             navigationOptions:
             {
                 tabBarLabel: 'Group',
@@ -114,10 +46,10 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Live:
         {
-            screen: LiveStack,
+            screen: CameraScreen,
             navigationOptions:
             {
-                tabBarLabel: 'Live',
+                tabBarLabel: 'Camera',
                 tabBarIcon: ({ tintColor, focused }) => (
                     <Icon size={25} name="md-camera" style={{ color: tintColor }} />
                 )
@@ -147,23 +79,51 @@ const TabNavigator = createMaterialBottomTabNavigator(
 const CameraStack = createStackNavigator({
     Main: {
         screen: TabNavigator,
-
-    },
-
-    Camera: {
-        screen: CameraScreen,
-    },
-    PhotoPreview: {
-        screen: PhotoPreviewScreen
-    }
-},
-    {
-        headerMode: 'none',
         navigationOptions: {
-            headerVisible: false,
+            header: null
         }
     },
+    Camera: {
+        screen: CameraScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    PhotoPreview: {
+        screen: PhotoPreviewScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    MessageList: {
+        screen: MessageListScreen,
+    },
+    Photo: {
+        screen: PhotoModal,
+        navigationOptions: {
+            header: null
+        }
+    },
+},
+    {
+        headerMode: 'screen',
+        navigationOptions: {
+            headerVisible: true,
+        }
+    }
 );
+
+CameraStack.navigationOptions = ({ navigation }) => {
+    let header
+    let routeName = navigation.state.routes[navigation.state.index].routeName
+
+    if (routeName == 'Group') {
+        header = null
+    }
+    return {
+        header
+    }
+}
 
 
 const AppContainer = createAppContainer(CameraStack);
