@@ -17,9 +17,6 @@ class Message extends React.Component {
 
   componentDidMount = () => {
     this.getTime(this.props.date)
-    this.setState({
-      showOptions: this.props.willShowOptions
-    })
   }
 
   sendButton = () => {
@@ -37,28 +34,6 @@ class Message extends React.Component {
 
       return { date: (currentDate.getHours() + ':' + currentDate.getMinutes()) }
     })
-  }
-
-  getStyles = (hearts) => {
-    if (hearts == 0) {
-      return {
-        ...ElevationStyles.one
-      }
-    } else if (hearts == 1) {
-      return {
-        ...ElevationStyles.two
-      }
-    } else if (hearts == 2) {
-      return {
-        ...ElevationStyles.three
-      }
-    } else if (hearts == 3) {
-      return {
-        ...ElevationStyles.four
-      }
-    } else {
-      alert('Somethings gone wrong')
-    }
   }
 
   setOptions = () => {
@@ -115,7 +90,7 @@ class Message extends React.Component {
 
     return (
 
-      <Surface style={[{ borderRadius: 10, margin: 5 }, this.getStyles(this.props.hearts)]} theme={theme}>
+      <Surface style={{ borderRadius: 10, margin: 5, ...ElevationStyles.two }} theme={theme}>
         <TouchableRipple
           onPress={() => console.log('Pressed')}
           rippleColor="rgba(0, 0, 0, .32)"

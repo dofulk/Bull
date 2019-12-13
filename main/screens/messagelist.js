@@ -6,6 +6,7 @@ import MessageInput from '../components/messageinput';
 import { SpacingStyles, ButtonStyles } from '../styles/index';
 import { connect } from 'react-redux';
 import { getMessages, addNewMessage } from '../redux/actions';
+import { withNavigation } from 'react-navigation';
 
 class MessageList extends React.Component {
   constructor(props) {
@@ -35,7 +36,10 @@ class MessageList extends React.Component {
   }
 
   sendPhoto = () => {
-    console.log('hi')
+    this.props.navigation.push('Camera', {
+      chat: this.props.chatroom
+    })
+    console.log('I')
   }
 
   changeInputState = () => {
@@ -77,40 +81,47 @@ class MessageList extends React.Component {
 
 
     } else {
-      input = <FAB
-        style={{ ...ButtonStyles.fab }}
+      input = 
+      <>
+      <FAB
+        style={{ ...ButtonStyles.fab, bottom: 72 }}
+        icon="camera"
+        onPress={() => this.sendPhoto()}
+        theme={theme}
+      />
+      <FAB
+        style={{ ...ButtonStyles.fab, bottom: 0 }}
         icon="add"
         onPress={() => this.changeInputState()}
         theme={theme}
       />
+      </>
     }
 
     return (
-        <KeyboardAvoidingView style={[{ ...SpacingStyles.container }, { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }]}>
+      <KeyboardAvoidingView style={[{ ...SpacingStyles.container }, { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }]}>
 
-          <FlatList
-            contentContainerStyle={{ paddingBottom: 250 }}
-            data={this.props.comments}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            extradata={this.state}
-            scrollEnabled={true}
-            renderItem={({ item }) =>
-              <Message
-                comment={item.message}
-                title={item.user}
-                date={item.date}
-                hearts={item.hearts}
-                navigation={this.props.navigation}
-                changeInput={this.changeInputState}
-                type={item.type}
-                willShowOptions={this.willShowOptions}
-              >
-              </Message>
-            }
-            keyExtractor={item => item._id}
-          />
-          {input}
-        </KeyboardAvoidingView>
+        <FlatList
+          contentContainerStyle={{ paddingBottom: 250 }}
+          data={this.props.comments}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          extradata={this.state}
+          scrollEnabled={true}
+          renderItem={({ item }) =>
+            <Message
+              comment={item.message}
+              title={item.user}
+              date={item.date}
+              changeInput={this.changeInputState}
+              type={item.type}
+              willShowOptions={this.willShowOptions}
+            >
+            </Message>
+          }
+          keyExtractor={item => item._id}
+        />
+        {input}
+      </KeyboardAvoidingView>
 
 
     )
@@ -141,4 +152,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageList);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(MessageList));

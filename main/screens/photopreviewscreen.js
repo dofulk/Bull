@@ -16,7 +16,7 @@ class PhotoPreviewScreen extends React.Component {
     sendPhoto = () => {
         this.props.addNewPhotoMessage(
              this.state.image,
-            { user: this.props.user.name, message: 'hi', hearts: 2, date: new Date(), chat: 'top', type: 'image_message' }
+            { user: this.props.user.name, message: 'hi', hearts: 2, date: new Date(), chat: this.props.navigation.getParam('chat'), type: 'image_message' }
         )
     }
 

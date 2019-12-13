@@ -55,7 +55,8 @@ class CameraScreen extends React.Component {
       const data = await this.camera.takePictureAsync(options);
       console.log(data.uri);
       this.props.navigation.navigate('PhotoPreview', {
-        imageUri: data.uri
+        imageUri: data.uri,
+        chat: this.props.navigation.getParam('chat')
       })
     }
   };

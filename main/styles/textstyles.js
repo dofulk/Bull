@@ -11,3 +11,8 @@ export const secondary = {
 export const disabled = {
     color: 'rgba(255,255,255, .38)',
 }
+
+export const H4 = {
+    color: 'rgba(255,255,255, .87)',
+    fontSize: 34,
+}

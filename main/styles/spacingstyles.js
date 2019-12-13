@@ -16,3 +16,7 @@ export const ripple = {
 export const content = {
     margin: 2
 }
+
+export const settings = {
+    margin: 10
+}
