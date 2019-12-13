@@ -15,7 +15,7 @@ class GroupScreen extends React.Component {
       groups: [
         { comment: "Hello", group: "the worst group ever", user: "Dom" },
         { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" },
-        { comment: "Hello", group: "The Degenerates", user: "Dom" },
+        { comment: "Hello, is it me you're looking for?", group: "The Degenerates", user: "Dom" },
       ],
     }
   };
