@@ -1,11 +1,11 @@
 import React from 'react';
 import TopScreen from './topscreen';
-import LiveScreen from './livescreen';
 import GroupScreen from './groupscreen';
 import SettingsScreen from './settingsscreen';
 import PhotoPreviewScreen from './photopreviewscreen';
 import CameraScreen from './camerascreen';
 import MessageListScreen from './messagelistscreen';
+import SearchScreen from './searchscreen'
 import PhotoModal from './photomodal'
 import { getMessages } from '../redux/actions'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -40,18 +40,18 @@ const TabNavigator = createMaterialBottomTabNavigator(
             {
                 tabBarLabel: 'Group',
                 tabBarIcon: ({ tintColor, focused }) => (
-                    <Icon size={25} name="md-globe" style={{ color: tintColor }} />
+                    <Icon size={25} name="md-person" style={{ color: tintColor }} />
                 )
             }
         },
-        Live:
+        Search:
         {
-            screen: CameraScreen,
+            screen: SearchScreen,
             navigationOptions:
             {
-                tabBarLabel: 'Camera',
+                tabBarLabel: 'Search',
                 tabBarIcon: ({ tintColor, focused }) => (
-                    <Icon size={25} name="md-camera" style={{ color: tintColor }} />
+                    <Icon size={25} name="md-search" style={{ color: tintColor }} />
                 )
             }
         },

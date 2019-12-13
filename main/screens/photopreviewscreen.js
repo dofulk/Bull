@@ -31,7 +31,7 @@ class PhotoPreviewScreen extends React.Component {
                         source={{ uri: this.state.image }}
                     />
                 </TouchableOpacity>
-                <FAB icon="send" style={{ ...ButtonStyles.fab }} onPress={this.sendPhoto}></FAB>
+                <FAB icon="send" style={{ ...ButtonStyles.fab, bottom: 0 }} onPress={this.sendPhoto}></FAB>
             </View>
         )
     }

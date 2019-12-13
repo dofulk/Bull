@@ -68,7 +68,6 @@ class MessageList extends React.Component {
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
               multiline={true}
-              theme={theme}
               sendMessage={this.sendMessage}
               style={{ marginTop: 5 }}
 
@@ -87,13 +86,11 @@ class MessageList extends React.Component {
         style={{ ...ButtonStyles.fab, bottom: 72 }}
         icon="camera"
         onPress={() => this.sendPhoto()}
-        theme={theme}
       />
       <FAB
-        style={{ ...ButtonStyles.fab, bottom: 0 }}
+        style={{ ...ButtonStyles.fab, bottom: 0}}
         icon="add"
         onPress={() => this.changeInputState()}
-        theme={theme}
       />
       </>
     }
@@ -128,14 +125,6 @@ class MessageList extends React.Component {
   }
 }
 
-const theme = {
-  dark: true,
-  colors: {
-    placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)',
-    underlineColor: 'transparent', background: 'rgba(255,255,255, .11)', primary: "#ef4f6a", secondary: "#d6bd4c"
-  },
-  roundness: 5
-}
 
 const mapStateToProps = (state, ownProps) => {
   return {
