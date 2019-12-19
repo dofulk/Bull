@@ -2,6 +2,7 @@ const axios = require('axios')
 
 
 export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const ADD_GROUP = 'ADD_GROUP'
 export const CHANGE_NAME = 'CHANGE_NAME'
 export const CONNECTEDDISCONNECTED = 'CONNECTED'
 export const DISCONNECTED = 'DISCONNECTED'
@@ -14,6 +15,12 @@ export function addMessage(data) {
     }
 }
 
+export function addGroup(data) {
+    return {
+        type: ADD_GROUP,
+        payload: data
+    }
+}
 
 
 
@@ -56,6 +63,11 @@ export const getMessages = (socket) => {
 export const addNewMessage = (socket, message) => {
     return () => {
         socket.emit('message', message)
+    }
+}
+
+export const addNewGroup = (message) => {
+    return () => {
     }
 }
 

@@ -7,6 +7,7 @@ import CameraScreen from './camerascreen';
 import MessageListScreen from './messagelistscreen';
 import SearchScreen from './searchscreen'
 import PhotoModal from './photomodal'
+import EditSettingsScreen from './editsettingsscreen';
 import { getMessages } from '../redux/actions'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -18,6 +19,24 @@ import { connect } from 'react-redux';
 
 
 
+const SettingsStack = createStackNavigator({
+    Settings: {
+        screen: SettingsScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    EditSettings: {
+        screen: EditSettingsScreen,
+    },
+},
+    {
+        headerMode: 'screen',
+        navigationOptions: {
+            headerVisible: true,
+        }
+    }
+)
 
 
 
@@ -57,24 +76,26 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Settings:
         {
-            screen: SettingsScreen,
+            screen: SettingsStack,
             navigationOptions:
             {
                 tabBarLabel: 'Settings',
                 tabBarIcon: ({ tintColor, focused }) => (
-                    <Icon size={25} name="md-settings" style={{ color: tintColor }} />
+                    <Icon size={25} name="md-settings" style={{ color: tintColor,  }} />
                 )
             }
         },
     },
     {
         initialRouteName: "Top",
-        activeColor: 'rgba(255,255,255, .87)',
+        activeTintColor: "#ff5973",
         inactiveColor: 'rgba(255,255,255, .60)',
         barStyle: { backgroundColor: '#303030' },
         labeled: false,
     },
 );
+
+
 
 const CameraStack = createStackNavigator({
     Main: {
@@ -113,17 +134,7 @@ const CameraStack = createStackNavigator({
     }
 );
 
-CameraStack.navigationOptions = ({ navigation }) => {
-    let header
-    let routeName = navigation.state.routes[navigation.state.index].routeName
 
-    if (routeName == 'Group') {
-        header = null
-    }
-    return {
-        header
-    }
-}
 
 
 const AppContainer = createAppContainer(CameraStack);

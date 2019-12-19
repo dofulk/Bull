@@ -15,8 +15,6 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 
-// store.dispatch(handleSocket)
-
 
 
 export default store;

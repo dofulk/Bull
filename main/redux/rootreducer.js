@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, CHANGE_NAME, CONNECTED, DISCONNECTED } from './actions';
+import { ADD_MESSAGE, CHANGE_NAME, CONNECTED, DISCONNECTED, ADD_GROUP } from './actions';
 import { combineReducers } from 'redux';
 import io from 'socket.io-client'
 import { objectExpression } from '@babel/types';
@@ -12,7 +12,7 @@ const defaultValues = {
         socketio: io('http://10.0.2.2:3000')
     },
     chatMessages: [],
-    outgoingMessages: [],
+    groups: []
 
 }
 
@@ -22,6 +22,18 @@ const userReducer = (state = defaultValues.user, action) => {
             return Object.assign({}, state, {
                 name: action.payload
             })
+        default:
+            return state
+    }
+}
+
+const groupsReducer = (state = defaultValues.groups, action) => {
+    switch (action.type) {
+        case ADD_GROUP:
+            return [
+                ...state,
+                action.payload
+            ]
         default:
             return state
     }
@@ -72,7 +84,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     chatMessages: chatMessagesReducer,
     socket: socketReducer,
-
+    groups: groupsReducer
 })
 
 
