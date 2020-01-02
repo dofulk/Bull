@@ -1,38 +1,42 @@
 import React from 'react';
 import { View } from 'react-native';
-import {  TextInput } from 'react-native-paper';
+import { TextInput, IconButton } from 'react-native-paper';
+import { TextStyles } from '../styles';
 
 
 class MessageInput extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { text: '', height: 0 };
-    }
-  
-    changeText() {
-  
-    }
-  
-    render() {
-      return (
-        <View style={{ margin: 10 }}>
-          <TextInput
-            {...this.props}
-  
-            placeholder="New Message!"
-            mode="flat"
-  
-            onContentSizeChange={(event) => {
-              this.setState({ height: event.nativeEvent.contentSize.height })
-            }}
-            // style={{ height: this.state.height }}
-            keyboardAppearance="dark"
-  
-  
-          />
-        </View>
-      )
-    }
+  constructor(props) {
+    super(props);
+
   }
 
-  export default MessageInput
+  changeText() {
+
+  }
+
+  render() {
+    return (
+      <View style={{ marginLeft: 5, marginRight: 5, flexDirection: 'row' }}>
+          <TextInput
+            {...this.props}
+
+            placeholder="New Message!"
+            dense={true}
+            keyboardAppearance="dark"
+            style={{flex: 8}}
+
+          />
+        
+          <IconButton
+            icon="send"
+            size={20}
+            color={TextStyles.secondary.color}
+            onPress={this.props.sendMessage}
+            style={{alignSelf: "center"}}
+          />
+      </View>
+    )
+  }
+}
+
+export default MessageInput
