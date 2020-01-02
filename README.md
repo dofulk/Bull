@@ -16,4 +16,7 @@ mongodb version: 4.0.11,
 
 ## Installation
 
-In order to run this you'll need to have npm and an Android emulator installed (theoretically it should be possible to get this to run on ios, but since I don't have a mac and the point of this project was not to learn how to run a virtual machine there are almost certainly a few major bugs).  
+In order to run this you'll need to have an Android emulator installed. (Theoretically it should be possible to get this to run on ios, but since I don't have a mac and the point of this project was not to learn how to run a virtual machine there are almost certainly a few major bugs).
+
+Clone this repo to your desktop and run npm install to install all the dependencies.
+Then you need to run both react-native start and react-native run-android to start the app.
