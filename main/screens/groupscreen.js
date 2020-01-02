@@ -1,24 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SpacingStyles } from '../styles/index'
+import { SpacingStyles, ButtonStyles } from '../styles/index'
 import Group from '../components/group'
 import { FlatList } from 'react-native-gesture-handler';
+import { FAB } from 'react-native-paper';
+import { connect } from 'react-redux'
 
 class GroupScreen extends React.Component {
   static navigationOptions = {
     headerShown: false
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      groups: [
-        { comment: "Hello", group: "the worst group ever", user: "Dom" },
-        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" },
-        { comment: "Hello, is it me you're looking for?", group: "The Degenerates", user: "Dom" },
-      ],
-    }
-  };
 
   goToGroup = (group) => {
     this.props.navigation.push('MessageList', {
@@ -27,24 +19,39 @@ class GroupScreen extends React.Component {
     console.log('hi')
   }
 
+  addgroup = () => {
+    console.log('noo')
+  }
+
   render() {
     return (
       <View style={{ ...SpacingStyles.container }}>
         <FlatList
-          data={this.state.groups}
+          data={this.props.groups}
           renderItem={({ item }) =>
             <Group
               comment={item.comment}
               title={item.group}
               user={item.user}
               onPressButton={() => this.goToGroup(item.group)}
-              />
+            />
           }
           keyExtractor={item => item.comment}
+        />
+        <FAB
+          style={{ ...ButtonStyles.fab, bottom: 0 }}
+          icon="add"
+          onPress={() => this.addgroup()}
         />
       </View>
     )
   }
 }
 
-export default GroupScreen;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    groups: state.groups
+  }
+}
+
+export default connect(mapStateToProps)(GroupScreen);

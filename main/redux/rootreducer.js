@@ -12,7 +12,11 @@ const defaultValues = {
         socketio: io('http://10.0.2.2:3000')
     },
     chatMessages: [],
-    groups: []
+    groups: [
+        { comment: "Hello", group: "the worst group ever", user: "Dom" },
+        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" },
+        { comment: "Hello, is it me you're looking for?", group: "The Degenerates", user: "Dom" },
+    ]
 
 }
 
