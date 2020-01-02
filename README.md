@@ -20,3 +20,6 @@ In order to run this you'll need to have an Android emulator installed. (Theoret
 
 Clone this repo to your desktop and run npm install to install all the dependencies.
 Then you need to run both react-native start and react-native run-android to start the app.
+
+## Features
+
