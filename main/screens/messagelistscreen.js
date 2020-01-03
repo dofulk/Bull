@@ -6,7 +6,8 @@ class MessageListScreen extends React.Component {
     return {
       title: navigation.getParam('group', 'Group'),
       headerStyle: {
-        backgroundColor: '#2b2b2b', //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa this is wrong but I don't want to fix it right now
+         // workaround for lack of support for an overlay
+        backgroundColor: '#2b2b2b', 
       },
       headerTintColor: 'rgba(255,255,255, .60)',
       headerTitleStyle: {

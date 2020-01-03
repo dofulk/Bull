@@ -57,6 +57,8 @@ export const getMessages = (socket) => {
     return dispatch => {
         socket.on('message', res => { dispatch(addMessage(res)) }
         )
+        socket.on('image_message', res => { dispatch(addMessage(res)) }
+        )
     }
 }
 
@@ -75,11 +77,11 @@ export const addNewPhotoMessage = (image, message) => {
     return () => {
         let imageFormObj = new FormData();
 
-        for ( var key in message ) {
+        for ( let key in message ) {
             imageFormObj.append(key, message[key]);
         }
         
-        imageFormObj.append('fileData', {
+        imageFormObj.append('file', {
             uri: image,
             type: 'image/jpeg',
         });

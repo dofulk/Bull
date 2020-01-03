@@ -3,7 +3,6 @@ import { Text, View } from 'react-native';
 import { SpacingStyles, TextStyles } from '../styles/index';
 import { connect } from 'react-redux';
 import { Avatar, Surface, Paragraph, Button } from 'react-native-paper';
-import { StackRouter } from 'react-navigation';
 
 class SettingsScreen extends React.Component {
   
