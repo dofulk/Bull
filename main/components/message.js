@@ -45,10 +45,10 @@ class Message extends React.Component {
 
   pressPhotoButton = () => {
 
-    if (photoLoaded) {
+    if (this.photoLoaded) {
       this.props.navigation.push('Photo', {image: this.props.image})
     } else {
-      
+      this.props.loadPhoto(this.props.imgId)
     }
 
 

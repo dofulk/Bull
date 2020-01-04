@@ -5,7 +5,7 @@ import Message from '../components/message';
 import MessageInput from '../components/messageinput';
 import { SpacingStyles, ButtonStyles } from '../styles/index';
 import { connect } from 'react-redux';
-import { getMessages, addNewMessage } from '../redux/actions';
+import { getMessages, addNewMessage, loadPhoto } from '../redux/actions';
 import { withNavigation } from 'react-navigation';
 
 class MessageList extends React.Component {
@@ -39,7 +39,6 @@ class MessageList extends React.Component {
     this.props.navigation.push('Camera', {
       chat: this.props.chatroom
     })
-    console.log('I')
   }
 
   changeInputState = () => {
@@ -52,6 +51,9 @@ class MessageList extends React.Component {
     return false
   }
 
+  loadPhoto = (id) => {
+    this.props.loadPhoto(id)
+  }
 
 
   render() {
@@ -112,6 +114,8 @@ class MessageList extends React.Component {
               changeInput={this.changeInputState}
               type={item.type}
               willShowOptions={this.willShowOptions}
+              loadPhoto={this.loadPhoto}
+              imgId={item.imgId}
             >
             </Message>
           }
@@ -137,7 +141,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   addNewMessage,
-  getMessages
+  getMessages,
+  loadPhoto
 }
 
 
