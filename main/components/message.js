@@ -12,7 +12,6 @@ class Message extends React.Component {
     this.state = {
       date: '',
       showOptions: false,
-      photoLoaded: false
     }
   }
 
@@ -44,14 +43,12 @@ class Message extends React.Component {
   }
 
   pressPhotoButton = () => {
+    if (this.props.photoLoaded(this.props.imgId)) {
 
-    if (this.photoLoaded) {
-      this.props.navigation.push('Photo', {image: this.props.image})
+      this.props.navigation.push('Photo', {image: this.props.getPhoto(this.props.imgId).data})
     } else {
       this.props.loadPhoto(this.props.imgId)
     }
-
-
   }
 
 

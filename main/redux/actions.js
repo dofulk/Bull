@@ -24,7 +24,8 @@ export function addGroup(data) {
 
 export function addPhoto(data) {
     return {
-        type: ADD_PHOTO
+        type: ADD_PHOTO,
+        payload: data
     }
 }
 
@@ -76,7 +77,7 @@ export const loadPhoto = (id) => {
             }
         })
         .then(res => {
-            dispatch(addPhoto(res))
+            dispatch(addPhoto(res.data))
         }).catch((err) => { console.log(err) })
     }
 }

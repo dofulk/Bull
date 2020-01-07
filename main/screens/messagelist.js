@@ -47,12 +47,17 @@ class MessageList extends React.Component {
     });
   }
 
-  willShowOptions = () => {
-    return false
-  }
 
   loadPhoto = (id) => {
     this.props.loadPhoto(id)
+  }
+
+  photoLoaded = (id) => {
+    return this.props.photos.some(data => data._id == id)
+  }
+
+  getPhoto = (id) => {
+    return this.props.photos.find(data => data._id == id)
   }
 
 
@@ -113,9 +118,10 @@ class MessageList extends React.Component {
               date={item.date}
               changeInput={this.changeInputState}
               type={item.type}
-              willShowOptions={this.willShowOptions}
               loadPhoto={this.loadPhoto}
               imgId={item.imgId}
+              photoLoaded={this.photoLoaded}
+              getPhoto={this.getPhoto}
             >
             </Message>
           }
@@ -134,7 +140,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     user: state.user,
     comments: state.chatMessages[ownProps.chatroom],
-    socket: state.socket
+    socket: state.socket,
+    photos: state.photos
 
   }
 }

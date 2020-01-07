@@ -60,13 +60,12 @@ const socketReducer = (state = defaultValues.socket, action) => {
 }
 
 const photosReducer = (state = defaultValues.photos, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case ADD_PHOTO:
-            return [
-                ...state,
-                action.payload
-            ]
-        default: 
+            let newArray = state.slice()
+            newArray.splice(action.index, 0, action.payload)
+            return newArray
+        default:
             return state
     }
 }
