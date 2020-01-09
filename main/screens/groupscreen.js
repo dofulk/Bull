@@ -16,11 +16,10 @@ class GroupScreen extends React.Component {
     this.props.navigation.push('MessageList', {
       group: group
     })
-    console.log('hi')
   }
 
   addgroup = () => {
-    console.log('noo')
+   this.props.navigation.push('AddGroup')
   }
 
   render() {

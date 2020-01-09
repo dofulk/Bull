@@ -1,3 +1,5 @@
+import { objectExpression } from '@babel/types'
+
 const axios = require('axios')
 
 
@@ -77,6 +79,7 @@ export const loadPhoto = (id) => {
             }
         })
         .then(res => {
+            console.log(res.data)
             dispatch(addPhoto(res.data))
         }).catch((err) => { console.log(err) })
     }
@@ -88,26 +91,24 @@ export const addNewMessage = (socket, message) => {
     }
 }
 
-export const addNewGroup = (message) => {
-    return () => {
+export const addNewGroup = (group) => {
+    return dispatch => {
+        dispatch(addGroup(group))
     }
 }
 
-export const addNewPhotoMessage = (image, message) => {
+export const addNewPhotoMessage = (image, message, socket) => {
     return () => {
         let imageFormObj = new FormData();
-
-        for (let key in message) {
-            imageFormObj.append(key, message[key]);
-        }
 
         imageFormObj.append('file', {
             uri: image,
             type: 'image/jpeg',
         });
         axios.post('http://10.0.2.2:3000/upload', imageFormObj)
-            .then(checkStatusAndGetJSONResponse => {
-                console.log(checkStatusAndGetJSONResponse);
+            .then(res => {
+                Object.assign(message, {imgId: res.data})
+                socket.emit('message', message)
             }).catch((err) => { console.log(err) })
     }
 }

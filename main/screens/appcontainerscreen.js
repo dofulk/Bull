@@ -8,7 +8,8 @@ import MessageListScreen from './messagelistscreen';
 import SearchScreen from './searchscreen'
 import PhotoModal from './photomodal'
 import EditSettingsScreen from './editsettingsscreen';
-import { getMessages } from '../redux/actions'
+import AddGroupScreen from './addgroupscreen';
+import { getMessages } from '../redux/actions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -38,6 +39,25 @@ const SettingsStack = createStackNavigator({
     }
 )
 
+const GroupStack = createStackNavigator({
+    Groups: {
+        screen: GroupScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    AddGroup: {
+        screen: AddGroupScreen,
+    },
+},
+    {
+        headerMode: 'screen',
+        navigationOptions: {
+            headerVisible: true,
+        }
+    }
+)
+
 
 
 const TabNavigator = createMaterialBottomTabNavigator(
@@ -54,7 +74,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },
         Group:
         {
-            screen: GroupScreen,
+            screen: GroupStack,
             navigationOptions:
             {
                 tabBarLabel: 'Group',

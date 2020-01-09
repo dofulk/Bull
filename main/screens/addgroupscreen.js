@@ -4,24 +4,24 @@ import { SpacingStyles, TextStyles } from '../styles/index';
 import { connect } from 'react-redux';
 import { Avatar, Surface, Paragraph, Button, TextInput } from 'react-native-paper';
 import { StackRouter } from 'react-navigation';
-import { changeName } from '../redux/actions';
+import { addNewGroup } from '../redux/actions';
 
-class EditSettingsScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      user: this.props.user.name
+
+class AddGroupScreen extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            groupName: ""
+        }
     }
-
-  }
-
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: 'Edit Profile',
+            title: 'New Group',
             headerStyle: {
                 // workaround for lack of support for an overlay
-                backgroundColor: '#2b2b2b', 
+                backgroundColor: '#2b2b2b',
             },
             headerTintColor: 'rgba(255,255,255, .60)',
             headerTitleStyle: {
@@ -31,30 +31,36 @@ class EditSettingsScreen extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.changeName(this.state.user)
-    }
-
-    handleUsername = () => {
-
-    }
-
     onChangeText = (text) => {
         this.setState({
-            user: text
+            groupName: text
         })
+    }
+
+    createGroup = () => {
+        this.props.addNewGroup({
+            comment: "Group Created",
+            user: 'Dom',
+            group: this.state.groupName
+        })
+        this.props.navigation.goBack()
+        
     }
 
     render() {
         return (
             <View style={{ ...SpacingStyles.container, alignItems: 'center' }}>
-                <Avatar.Icon size={80} style={{ ...SpacingStyles.settings }} icon="face" />
-                <View style={{ flexDirection: 'row', ...SpacingStyles.settings }}>
-                   
-                </View>
+                <TextInput
+                    style={{ ...TextStyles.H4, width: '90%' }}
+                    mode="outlined"
+                    placeholder="Group Name"
+                    onChangeText={text => this.onChangeText(text)}
+                />
+                <Button mode="contained" style={{ ...SpacingStyles.settings }} onPress={this.createGroup}>Create</Button>
             </View>
         )
     }
+
 }
 
 const mapStateToProps = (state) => {
@@ -63,9 +69,8 @@ const mapStateToProps = (state) => {
 
     }
 }
+
 const mapDispatchToProps = {
-    changeName
+    addNewGroup
 }
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditSettingsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AddGroupScreen);

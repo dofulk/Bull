@@ -10,9 +10,6 @@ class MessageInput extends React.Component {
 
   }
 
-  changeText() {
-
-  }
 
   render() {
     return (
