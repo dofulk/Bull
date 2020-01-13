@@ -7,13 +7,13 @@ import { StackRouter } from 'react-navigation';
 import { changeName } from '../redux/actions';
 
 class EditSettingsScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      user: this.props.user.name
-    }
+    constructor(props) {
+        super(props)
+        this.state = {
+            user: this.props.user.name
+        }
 
-  }
+    }
 
 
     static navigationOptions = ({ navigation }) => {
@@ -21,7 +21,7 @@ class EditSettingsScreen extends React.Component {
             title: 'Edit Profile',
             headerStyle: {
                 // workaround for lack of support for an overlay
-                backgroundColor: '#2b2b2b', 
+                backgroundColor: '#2b2b2b',
             },
             headerTintColor: 'rgba(255,255,255, .60)',
             headerTitleStyle: {
@@ -50,7 +50,7 @@ class EditSettingsScreen extends React.Component {
             <View style={{ ...SpacingStyles.container, alignItems: 'center' }}>
                 <Avatar.Icon size={80} style={{ ...SpacingStyles.settings }} icon="face" />
                 <View style={{ flexDirection: 'row', ...SpacingStyles.settings }}>
-                   
+
                 </View>
             </View>
         )

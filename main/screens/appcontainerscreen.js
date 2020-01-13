@@ -9,6 +9,7 @@ import SearchScreen from './searchscreen'
 import PhotoModal from './photomodal'
 import EditSettingsScreen from './editsettingsscreen';
 import AddGroupScreen from './addgroupscreen';
+import CreateUserScreen from './createuserscreen';
 import { getMessages } from '../redux/actions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -101,7 +102,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
             {
                 tabBarLabel: 'Settings',
                 tabBarIcon: ({ tintColor, focused }) => (
-                    <Icon size={25} name="md-settings" style={{ color: tintColor,  }} />
+                    <Icon size={25} name="md-settings" style={{ color: tintColor, }} />
                 )
             }
         },
@@ -145,6 +146,9 @@ const CameraStack = createStackNavigator({
             header: null
         }
     },
+    CreateUser: {
+        screen: CreateUserScreen
+    }
 },
     {
         headerMode: 'screen',
