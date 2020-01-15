@@ -5,18 +5,29 @@ import { SpacingStyles, TextStyles } from '../styles/index';
 import { connect } from 'react-redux';
 import { Avatar, Surface, Paragraph, Button, TextInput } from 'react-native-paper';
 import { addNewGroup } from '../redux/actions';
-import { Formik } from 'formik'
-import * as Yup from 'yup'
+import { validator } from '../validation/formvalidate'
 
 
 class CreateUserScreen extends React.Component {
 
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			username: '',
+			usernameError: '',
+			password: '',
+			passwordError: '',
+			isValid: false
+
+		}
+	}
 
 	static navigationOptions = ({ navigation }) => {
 		return {
 			title: 'New User',
 			headerStyle: {
-				// workaround for lack of support for an overlay
+				// workaround for lack of support for an overlay in react navigation
 				backgroundColor: '#2b2b2b',
 			},
 			headerTuintColor: 'rgba(255,255,255, .60)',
@@ -28,73 +39,75 @@ class CreateUserScreen extends React.Component {
 	}
 
 
-	createUser = user => {
-		if (user.username == '' || user.password == '') {
-			alert('Please provide username and password')
+
+	checkValid = () => {
+		if (validator({ username: this.state.username }, 'username') || validator({ password: this.state.password }, 'password')) {
+			this.setState({
+				isValid: false
+			})
 		} else {
-			console.log(user)
-			this.props.navigation.goBack()
+			this.setState({
+				isValid: true
+			})
 		}
+	}
+
+	createUser = () => {
 
 	}
 
 	render() {
 
 		return (
-			<Formik
-				initialValues={{
-					username: '',
-					password: '',
-					bio: '',
-				}}
-				validationSchema={validationSchema}
-				onSubmit={values => this.createUser(values)}
-			>
-				{({ handleChange, handleSubmit, values, errors, touched, isValid }) => (
-					<View style={{ ...SpacingStyles.container, alignItems: 'center' }}>
-						<FormInput
-							name="username"
-							value={values.username}
-							placeholder="Username"
-							onChangeText={handleChange('username')}
-							required={true}
-						/>
-						<Text style={{ color: '#CF6679' }}>{errors.username}</Text>
-
-						<FormInput
-							name="password"
-							value={values.password}
-							placeholder="Password"
-							onChangeText={handleChange('password')}
-							required={true}
-						/>
-						<Text style={{ color: '#CF6679' }}>{errors.password}</Text>
-						<Button
-							mode="contained"
-							style={{ ...SpacingStyles.settings }}
-							onPress={handleSubmit}
-							disabled={!isValid}>
-							Create
+			<View style={{ ...SpacingStyles.container, alignItems: 'center' }}>
+				<TextInput
+					mode="outlined"
+					placeholder="Username"
+					style={{ ...TextStyles.H4, width: '90%' }}
+					onChangeText={text => {
+						this.setState({
+							username: text
+						})
+						this.checkValid()
+					}}
+					onBlur={() => {
+						this.setState({
+							usernameError: validator({ username: this.state.username }, 'username')
+						})
+					}}
+				/>
+				<Text style={{ color: '#CF6679' }}>{this.state.usernameError}</Text>
+				<TextInput
+					mode="outlined"
+					placeholder="Password"
+					style={{ ...TextStyles.H4, width: '90%' }}
+					onChangeText={text => {
+						this.setState({
+							password: text
+						})
+						this.checkValid()
+					}}
+					onBlur={() => {
+						this.setState({
+							passwordError: validator({ password: this.state.password }, 'password')
+						})
+					}}
+				/>
+				<Text style={{ color: '#CF6679' }}>{this.state.passwordError}</Text>
+				<Button
+					mode="contained"
+					style={{ ...SpacingStyles.settings }}
+					onPress={() => console.log(this.state.usernameError)}
+					disabled={!this.state.isValid}
+				>
+					Create
 							</Button>
-					</View>
-				)}
-			</Formik>
+			</View>
 		)
 	}
 
 }
 
-
-const validationSchema = Yup.object().shape({
-	username: Yup.string()
-		.min(2, 'Too Short!')
-		.max(50, 'Too Long!')
-		.required('Required'),
-	password: Yup.string()
-		.min(2, 'Too Short!')
-		.max(50, 'Too Long!')
-		.required('Password Required'),
-});
 
 
 const mapDispatchToProps = {

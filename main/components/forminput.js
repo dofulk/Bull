@@ -1,29 +1,15 @@
 import React from 'react'
 import { TextInput } from 'react-native-paper'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { TextStyles, SpacingStyles } from '../styles/index'
 
-const FormInput = ({
-  returnKeyType,
-  keyboardType,
-  name,
-  placeholder,
-  value,
-  ...rest
-}) => (
-  <View style={{width: '100%', alignSelf: 'center'}}>
+const FormInput = props => (
     <TextInput
-      {...rest}
       mode="outlined"
-      name={name}
-      value={value}
-      placeholder={placeholder}
+      placeholder={props.placeholder}
       style={{ ...TextStyles.H4, width: '90%' }}
-							
-							
-							
     />
-  </View>
+    // {/* props.error ? <Text>{props.error}</Text> : null */}
 )
 
 export default FormInput
