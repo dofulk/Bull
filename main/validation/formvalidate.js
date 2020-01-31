@@ -20,6 +20,12 @@ export const validator = (value, fieldName) => {
 }
 
 const constraints = {
+  phoneNumber: {
+    presence: {
+      allowEmpty: false,
+      message: 'required'
+    }
+  },
   username: {
     presence: {
       allowEmpty: false,

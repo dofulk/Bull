@@ -4,7 +4,7 @@ import FormInput from '../components/forminput';
 import { SpacingStyles, TextStyles } from '../styles/index';
 import { connect } from 'react-redux';
 import { Avatar, Surface, Paragraph, Button, TextInput } from 'react-native-paper';
-import { addNewUser } from '../redux/actions';
+import { addNewGroup } from '../redux/actions';
 import { validator } from '../validation/formvalidate'
 
 
@@ -14,14 +14,11 @@ class CreateUserScreen extends React.Component {
 		super(props)
 
 		this.state = {
-			phoneNumber: '',
-			phoneNumberError: '',
 			username: '',
 			usernameError: '',
 			password: '',
 			passwordError: '',
-			isValid: true
-
+			isValid: false
 
 		}
 	}
@@ -44,47 +41,25 @@ class CreateUserScreen extends React.Component {
 
 
 	checkValid = () => {
-		if (
-			validator({ username: this.state.username }, 'username') || validator({ password: this.state.password }, 'password') || validator({ phoneNumber: this.state.phoneNumber }, 'phoneNumber')) {
+		if (validator({ username: this.state.username }, 'username') || validator({ password: this.state.password }, 'password')) {
 			this.setState({
-				isValid: true
+				isValid: false
 			})
 		} else {
 			this.setState({
-				isValid: false
+				isValid: true
 			})
 		}
 	}
 
 	createUser = () => {
-		this.props.addNewUser({
-			phoneNumber: this.state.phoneNumber,
-			username: this.state.username,
-			password: this.state.password
-		})
+
 	}
 
 	render() {
 
 		return (
 			<View style={{ ...SpacingStyles.container, alignItems: 'center' }}>
-				<TextInput
-					mode="outlined"
-					placeholder="Phone Number"
-					style={{ ...TextStyles.H4, width: '90%' }}
-					onChangeText={text => {
-						this.setState({
-							phoneNumber: text
-						})
-						this.checkValid()
-					}}
-					onBlur={() => {
-						this.setState({
-							phoneNumberError: validator({ phoneNumber: this.state.phoneNumber }, 'phoneNumber')
-						})
-					}}
-				/>
-				<Text style={{ color: '#CF6679' }}>{this.state.phoneNumberError}</Text>
 				<TextInput
 					mode="outlined"
 					placeholder="Username"
@@ -122,10 +97,10 @@ class CreateUserScreen extends React.Component {
 				<Button
 					mode="contained"
 					style={{ ...SpacingStyles.settings }}
-					onPress={this.createUser}
-					disabled={this.state.isValid}
+					onPress={() => console.log(this.state.usernameError)}
+					disabled={!this.state.isValid}
 				>
-					Create
+					Login
 							</Button>
 			</View>
 		)
@@ -136,6 +111,6 @@ class CreateUserScreen extends React.Component {
 
 
 const mapDispatchToProps = {
-	addNewUser
+	addNewGroup
 }
 export default connect(null, mapDispatchToProps)(CreateUserScreen);

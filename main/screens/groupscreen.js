@@ -26,16 +26,16 @@ class GroupScreen extends React.Component {
     return (
       <View style={{ ...SpacingStyles.container }}>
         <FlatList
-          data={this.props.groups}
+          data={(this.props.groups)}
           renderItem={({ item }) =>
             <Group
               comment={item.comment}
-              title={item.group}
+              title={item.name}
               user={item.user}
-              onPressButton={() => this.goToGroup(item.group)}
+              onPressButton={() => this.goToGroup(item.name)}
             />
           }
-          keyExtractor={item => item.comment}
+          keyExtractor={item => item.id}
         />
         <FAB
           style={{ ...ButtonStyles.fab, bottom: 0 }}

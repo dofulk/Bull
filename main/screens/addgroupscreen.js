@@ -39,9 +39,9 @@ class AddGroupScreen extends React.Component {
 
     createGroup = () => {
         this.props.addNewGroup({
-            comment: "Group Created",
+            comment: "Created a new Group",
             user: 'Dom',
-            group: this.state.groupName
+            name: this.state.groupName
         })
         this.props.navigation.goBack()
         

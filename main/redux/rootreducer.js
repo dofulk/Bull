@@ -1,22 +1,17 @@
-import { ADD_MESSAGE, CHANGE_NAME, CONNECTED, DISCONNECTED, ADD_GROUP, ADD_PHOTO } from './actions';
+import { ADD_MESSAGE, CHANGE_NAME, CONNECTED, DISCONNECTED, ADD_GROUP, ADD_PHOTO, CHANGE_GROUP_RECENT } from './actions';
 import { combineReducers } from 'redux';
 import io from 'socket.io-client'
-import { objectExpression } from '@babel/types';
 
 const defaultValues = {
     user: {
-        name: 'Dom Fulk',
+        name: 'Guest',
     },
     socket: {
         isConnected: false,
         socketio: io('http://10.0.2.2:3000')
     },
     chatMessages: [],
-    groups: [
-        { comment: "Hello", group: "the worst group ever", user: "Dom" },
-        { comment: "Hello. Am I a participant in the world or am I just a passive spectator to life?", group: "the best group ever", user: "Dom" },
-        { comment: "Hello, is it me you're looking for?", group: "The Degenerates", user: "Dom" },
-    ],
+    groups: [],
     photos: []
 
 }
@@ -25,7 +20,8 @@ const userReducer = (state = defaultValues.user, action) => {
     switch (action.type) {
         case CHANGE_NAME:
             return Object.assign({}, state, {
-                name: action.payload
+                name: action.payload.username
+
             })
         default:
             return state
@@ -35,10 +31,20 @@ const userReducer = (state = defaultValues.user, action) => {
 const groupsReducer = (state = defaultValues.groups, action) => {
     switch (action.type) {
         case ADD_GROUP:
-            return [
+            return  [
                 ...state,
                 action.payload
             ]
+        case CHANGE_GROUP_RECENT:
+            return state.map((item) => {
+                if (item.id !== action.payload.id) {
+                    return item
+                }
+                return {
+                    ...item,
+                    ...action.payload
+                }
+            })
         default:
             return state
     }
