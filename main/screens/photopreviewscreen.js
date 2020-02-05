@@ -9,7 +9,7 @@ class PhotoPreviewScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            image: this.props.navigation.getParam('imageUri')
+            image: this.props.navigation.getParam('image')
         }
     }
 
@@ -17,7 +17,6 @@ class PhotoPreviewScreen extends React.Component {
         this.props.addNewPhotoMessage(
              this.state.image,
             { user: this.props.user.name, message: 'hi', hearts: 2, chat: this.props.navigation.getParam('chat'), type: 'image_message', date: new Date() },
-            this.props.socket.socketio
         )
         this.props.navigation.pop(2)
     }

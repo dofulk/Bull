@@ -166,19 +166,33 @@ export const addNewUser = (user) => {
     }
 }
 
-export const addNewPhotoMessage = (image, message, socket) => {
-    return () => {
+export const addNewPhotoMessage = (image, message) => {
+    return async dispatch => {
+
+        let token = await getToken()
         let imageFormObj = new FormData();
 
-        imageFormObj.append('file', {
+        imageFormObj.append('image', {
             uri: image,
-            type: 'image/jpeg',
+            name: 'image.jpg',
+            type: 'image/jpg'
         });
-        axios.post('http://10.0.2.2:3000/upload', imageFormObj)
-            .then(res => {
-                Object.assign(message, { imgId: res.data })
-                socket.emit('message', message)
-            }).catch((err) => { console.log(err) })
+        axios({
+            method: 'post',
+            url: 'http://10.0.2.2:3000/upload',
+            data: imageFormObj,
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'multipart/form-data',
+                Authorization: token,
+            }
+        }).then(res => {
+            console.log(res)
+            let newMessage = Object.assign({}, message, {
+                imgId: res.data.path
+            })
+            dispatch(addNewMessage(newMessage))
+        }).catch((err) => console.log(err))
     }
 }
 

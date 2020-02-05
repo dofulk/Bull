@@ -43,12 +43,9 @@ class Message extends React.Component {
   }
 
   pressPhotoButton = () => {
-    if (this.props.photoLoaded(this.props.imgId)) {
-
-      this.props.navigation.push('Photo', {image: this.props.getPhoto(this.props.imgId).data})
-    } else {
-      this.props.loadPhoto(this.props.imgId)
-    }
+    let source = 'http://10.0.2.2:3000/' + this.props.imgId
+    console.log(source)
+    this.props.navigation.push('Photo', { image: source })
   }
 
 
@@ -61,7 +58,7 @@ class Message extends React.Component {
     if (messageType === 'message') {
       type = <Paragraph style={{ ...TextStyles.primary, fontSize: 20, ...SpacingStyles.content, flex: 8 }}>{this.props.comment}</Paragraph>
     } else {
-      type = <Button mode="contained" onPress={this.pressPhotoButton} style={{ ...SpacingStyles.content, flex: 8 }}>This is a title about a pig thats really long</Button>
+      type = <Button mode="contained" onPress={this.pressPhotoButton} style={{ ...SpacingStyles.content, flex: 8 }}>{this.props.comment}</Button>
     }
 
     if (this.state.showOptions) {
@@ -126,10 +123,10 @@ class Message extends React.Component {
                 <View style={{ flexDirection: "column" }}>
                   {type}
                   {options}
-                  </View>
                 </View>
+              </View>
 
-              
+
             </View>
 
           </View>
