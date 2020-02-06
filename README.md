@@ -23,4 +23,6 @@ Then you need to run both react-native start and react-native run-android to sta
 
 ## Features
 
-Send and recieve messages in seperate group spaces.
+Send and recieve messages in seperate group spaces,
+Send and recieve photo messages,
+jwt authentication
