@@ -16,27 +16,26 @@ class GroupScreen extends React.Component {
     this.props.navigation.push('MessageList', {
       group: group
     })
-    console.log('hi')
   }
 
   addgroup = () => {
-    console.log('noo')
+   this.props.navigation.push('AddGroup')
   }
 
   render() {
     return (
       <View style={{ ...SpacingStyles.container }}>
         <FlatList
-          data={this.props.groups}
+          data={(this.props.groups)}
           renderItem={({ item }) =>
             <Group
               comment={item.comment}
-              title={item.group}
+              title={item.name}
               user={item.user}
-              onPressButton={() => this.goToGroup(item.group)}
+              onPressButton={() => this.goToGroup(item.name)}
             />
           }
-          keyExtractor={item => item.comment}
+          keyExtractor={item => item.id}
         />
         <FAB
           style={{ ...ButtonStyles.fab, bottom: 0 }}

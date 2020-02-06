@@ -5,7 +5,7 @@ import Message from '../components/message';
 import MessageInput from '../components/messageinput';
 import { SpacingStyles, ButtonStyles } from '../styles/index';
 import { connect } from 'react-redux';
-import { getMessages, addNewMessage } from '../redux/actions';
+import { getMessages, addNewMessage, loadPhoto } from '../redux/actions';
 import { withNavigation } from 'react-navigation';
 
 class MessageList extends React.Component {
@@ -25,21 +25,18 @@ class MessageList extends React.Component {
 
   sendMessage = () => {
     this.props.addNewMessage(
-      this.props.socket.socketio,
       { user: this.props.user.name, message: this.state.text, hearts: 2, date: new Date(), chat: this.props.chatroom, type: 'message' }
     )
     this.setState({
       showInput: false,
       text: ''
     })
-    console.log(this.props.chatMessages)
   }
 
   sendPhoto = () => {
     this.props.navigation.push('Camera', {
       chat: this.props.chatroom
     })
-    console.log('I')
   }
 
   changeInputState = () => {
@@ -48,10 +45,18 @@ class MessageList extends React.Component {
     });
   }
 
-  willShowOptions = () => {
-    return false
+
+  loadPhoto = (id) => {
+    this.props.loadPhoto(id)
   }
 
+  photoLoaded = (id) => {
+    return this.props.photos.some(data => data._id == id)
+  }
+
+  getPhoto = (id) => {
+    return this.props.photos.find(data => data._id == id)
+  }
 
 
   render() {
@@ -111,7 +116,10 @@ class MessageList extends React.Component {
               date={item.date}
               changeInput={this.changeInputState}
               type={item.type}
-              willShowOptions={this.willShowOptions}
+              loadPhoto={this.loadPhoto}
+              imgId={item.imgId}
+              photoLoaded={this.photoLoaded}
+              getPhoto={this.getPhoto}
             >
             </Message>
           }
@@ -130,14 +138,16 @@ const mapStateToProps = (state, ownProps) => {
   return {
     user: state.user,
     comments: state.chatMessages[ownProps.chatroom],
-    socket: state.socket
+    socket: state.socket,
+    photos: state.photos
 
   }
 }
 
 const mapDispatchToProps = {
   addNewMessage,
-  getMessages
+  getMessages,
+  loadPhoto
 }
 
 

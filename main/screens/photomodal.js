@@ -8,6 +8,9 @@ class PhotoModal extends React.Component {
         super(props)
     }
 
+    componentDidMount() {
+        console.log(this.props.navigation.getParam('image'))
+    }
 
 
     render() {
@@ -16,7 +19,7 @@ class PhotoModal extends React.Component {
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                     <Image
                         style={{ width: '100%', height: '100%' }}
-                        source={{ uri: this.props.navigation.getParam('image') }}
+                        source={{uri: this.props.navigation.getParam('image')}}
                     />
                 </TouchableOpacity>
             </View>

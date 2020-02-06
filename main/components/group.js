@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Avatar, Surface, Paragraph } from 'react-native-paper';
 import { ElevationStyles, TextStyles, SpacingStyles, PaperTheme } from '../styles/index'
-import Ripple from 'react-native-material-ripple';
 
 
 
@@ -28,12 +27,5 @@ class Group extends React.Component {
     }
 }
 
-const theme = {
-    dark: true,
-    colors: {
-        placeholder: 'rgba(255,255,255, .60)', text: 'rgba(255,255,255, .87)',
-        underlineColor: 'transparent', background: 'rgba(255,255,255, .11)', primary: "#ef4f6a"
-    },
-}
 
 export default Group;
