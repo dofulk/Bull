@@ -8,11 +8,11 @@ This project is a group messaging app that's currently a work in progress. I've 
 ## Technologies
 
 react-native version: 0.60.5,
+
 react-redux version: 7.1.3,
-socket.io version: 2.3.0,
-express version: 4.17.1,
-mongoose version: 5.8.3,
-mongodb version: 4.0.11,
+
+socket.io-client version: 2.3.0,
+
 
 ## Installation
 
@@ -23,3 +23,4 @@ Then you need to run both react-native start and react-native run-android to sta
 
 ## Features
 
+Send and recieve messages in seperate group spaces.
