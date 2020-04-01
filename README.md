@@ -33,4 +33,4 @@ Material design standards
 
 ## Screenshots
 
-![Alt text](main/assets/Screenshot_1578005151.png?raw=true "Optional Title")
+![Alt text](main/assets/Screenshot_1578005151.png?raw=true | height="400" "Optional Title")
