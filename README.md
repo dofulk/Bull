@@ -33,4 +33,4 @@ Material design standards
 
 ## Screenshots
 
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
+![Alt text](/Bull/main/assets/Screenshot_1578005151.png?raw=true "Optional Title")
