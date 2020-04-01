@@ -30,3 +30,7 @@ Send and recieve photo messages,
 jwt authentication
 
 Material design standards
+
+## Screenshots
+
+![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
