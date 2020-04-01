@@ -32,6 +32,7 @@ jwt authentication
 Material design standards
 
 ## Screenshots
-
+<div>
 <img src="main/assets/Screenshot_1578005151.png" width="400">
 <img src="main/assets/Screenshot_1578005375.png" width="400">
+<div>
