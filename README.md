@@ -33,4 +33,4 @@ Material design standards
 
 ## Screenshots
 
-![](main/assets/Screenshot_1578005151.png?s=200 )
+<img src="main/assets/Screenshot_1578005151.png" width="400" height="790">
